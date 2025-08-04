@@ -173,9 +173,9 @@ export default function TestSupabase() {
                 <div className="flex items-center gap-3">
                   {getStatusIcon(tests.realtime)}
                   <div>
-                    <h3 className="font-medium">Real-time Updates</h3>
+                    <h3 className="font-medium">Live Updates (Polling)</h3>
                     <p className="text-sm text-muted-foreground">
-                      Testing live subscription functionality
+                      Testing polling mechanism for live updates
                     </p>
                   </div>
                 </div>
