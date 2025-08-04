@@ -290,15 +290,10 @@ export default function AdminPanel() {
               </p>
             </div>
             <div className="flex gap-2">
-              <Button
-                onClick={() => setShowResetDialog(true)}
-                variant="outline"
-                className="border-destructive text-destructive hover:bg-destructive/10"
-                size="sm"
-              >
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Reset
-              </Button>
+              <EventResetButton
+                submissionCount={submissions.length}
+                onResetComplete={handleResetComplete}
+              />
               <Button
                 onClick={() => fetchSubmissions()}
                 disabled={isLoading}
