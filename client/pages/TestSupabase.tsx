@@ -231,8 +231,8 @@ export default function TestSupabase() {
                 <span>Row Level Security enabled</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle size={16} className="text-green-500" />
-                <span>Real-time enabled for submissions table</span>
+                <CheckCircle size={16} className="text-yellow-500" />
+                <span>Polling enabled (realtime coming soon in your account)</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-green-500" />
