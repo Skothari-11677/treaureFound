@@ -582,71 +582,7 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
 
-        {/* Reset Dialog */}
-        {showResetDialog && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-            <div className="bg-card border border-destructive rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl">
-              <h3 className="text-xl font-bold text-destructive mb-4 flex items-center gap-2">
-                ⚠️ Reset All Submissions
-              </h3>
-              <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 mb-4">
-                <p className="text-foreground font-medium text-sm">
-                  This will permanently delete ALL {submissions.length} submissions from the database.
-                </p>
-                <p className="text-muted-foreground text-sm mt-1">
-                  This action cannot be undone and will clear the entire leaderboard.
-                </p>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-foreground text-sm font-medium">
-                    Enter admin password to confirm:
-                  </label>
-                  <Input
-                    type="password"
-                    value={resetPassword}
-                    onChange={(e) => setResetPassword(e.target.value)}
-                    className="mt-1"
-                    placeholder="Enter: GDG-IET"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && resetPassword && !isResetting) {
-                        handleReset();
-                      }
-                    }}
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    onClick={() => {
-                      setShowResetDialog(false);
-                      setResetPassword("");
-                    }}
-                    variant="outline"
-                    className="flex-1"
-                    disabled={isResetting}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleReset}
-                    disabled={isResetting || !resetPassword || resetPassword !== "GDG-IET"}
-                    variant="destructive"
-                    className="flex-1"
-                  >
-                    {isResetting ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
-                        Deleting {submissions.length} records...
-                      </>
-                    ) : (
-                      `Reset All (${submissions.length} records)`
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+
       </div>
     </div>
   );
