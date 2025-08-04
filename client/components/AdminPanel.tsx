@@ -23,7 +23,7 @@ export default function AdminPanel() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
   const [lastSubmissionId, setLastSubmissionId] = useState<number>(0)
 
-  const fetchSubmissions = async () => {
+  const fetchSubmissions = async (showNewSubmissionToast = false) => {
     try {
       const { data, error } = await supabase
         .from('submissions')
@@ -34,7 +34,20 @@ export default function AdminPanel() {
         console.error('Error fetching submissions:', error)
         toast.error('Failed to fetch submissions')
       } else {
-        setSubmissions(data || [])
+        const newData = data || []
+
+        // Check for new submissions
+        if (showNewSubmissionToast && newData.length > 0 && submissions.length > 0) {
+          const latestSubmission = newData[0]
+          if (latestSubmission.id > lastSubmissionId) {
+            toast.success(`🎉 New submission from Team ${latestSubmission.team_id} - Level ${latestSubmission.level}!`)
+            setLastSubmissionId(latestSubmission.id)
+          }
+        } else if (newData.length > 0) {
+          setLastSubmissionId(newData[0].id)
+        }
+
+        setSubmissions(newData)
         setLastUpdate(new Date())
       }
     } catch (error) {
