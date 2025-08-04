@@ -180,6 +180,27 @@ export default function AdminPanel() {
   const teamStats = getTeamStats();
   const levelStats = getLevelStats();
 
+  const getSelectedTeamDetails = () => {
+    if (!selectedTeam) return null;
+
+    const teamSubmissions = submissions.filter(sub => sub.team_id === selectedTeam);
+    const levels = teamSubmissions.map(sub => ({
+      level: sub.level,
+      rating: sub.difficulty_rating,
+      time: sub.created_at,
+      password: sub.password
+    })).sort((a, b) => b.level - a.level);
+
+    return {
+      totalSubmissions: teamSubmissions.length,
+      maxLevel: Math.max(...levels.map(l => l.level), 0),
+      averageRating: levels.length > 0 ? (levels.reduce((sum, l) => sum + l.rating, 0) / levels.length).toFixed(1) : "0",
+      levels: levels
+    };
+  };
+
+  const selectedTeamDetails = getSelectedTeamDetails();
+
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString();
   };
