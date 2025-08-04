@@ -57,6 +57,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        terminal: {
+          green: "hsl(var(--terminal-green))",
+          "green-dim": "hsl(var(--terminal-green-dim))",
+          cyan: "hsl(var(--terminal-cyan))",
+          yellow: "hsl(var(--terminal-yellow))",
+          red: "hsl(var(--terminal-red))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
