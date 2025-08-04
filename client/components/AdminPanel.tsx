@@ -396,8 +396,19 @@ export default function AdminPanel() {
                 ),
               )}
               {teamStats.length === 0 && (
-                <div className="text-center py-8 text-muted-foreground">
-                  No submissions yet
+                <div className="text-center py-8">
+                  <div className="text-muted-foreground mb-4">
+                    No submissions yet
+                  </div>
+                  <div className="text-sm text-muted-foreground bg-muted/20 p-4 rounded-lg">
+                    <p className="font-medium mb-2">If this is your first time:</p>
+                    <ol className="text-left list-decimal list-inside space-y-1">
+                      <li>Go to your Supabase dashboard</li>
+                      <li>Open SQL Editor</li>
+                      <li>Run the SQL script from database-setup.sql</li>
+                      <li>Refresh this page</li>
+                    </ol>
+                  </div>
                 </div>
               )}
             </div>
