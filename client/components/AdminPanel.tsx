@@ -45,25 +45,27 @@ export default function AdminPanel() {
         }
       } else {
         const newData = data || [];
+        // Filter out test entries (team 999)
+        const filteredData = newData.filter(submission => submission.team_id !== '999');
 
         // Check for new submissions
         if (
           showNewSubmissionToast &&
-          newData.length > 0 &&
+          filteredData.length > 0 &&
           submissions.length > 0
         ) {
-          const latestSubmission = newData[0];
+          const latestSubmission = filteredData[0];
           if (latestSubmission.id > lastSubmissionId) {
             toast.success(
               `🎉 New submission from Team ${latestSubmission.team_id} - Level ${latestSubmission.level}!`,
             );
             setLastSubmissionId(latestSubmission.id);
           }
-        } else if (newData.length > 0) {
-          setLastSubmissionId(newData[0].id);
+        } else if (filteredData.length > 0) {
+          setLastSubmissionId(filteredData[0].id);
         }
 
-        setSubmissions(newData);
+        setSubmissions(filteredData);
         setLastUpdate(new Date());
       }
     } catch (error) {
