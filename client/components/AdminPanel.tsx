@@ -110,8 +110,31 @@ export default function AdminPanel() {
   };
 
   useEffect(() => {
-    // Initial fetch
-    fetchSubmissions();
+    // Test basic Supabase connection first
+    const testConnection = async () => {
+      try {
+        console.log("Testing Supabase connection...");
+        const { data, error } = await supabase.from("submissions").select("count", { count: "exact" }).limit(0);
+
+        if (error) {
+          console.error("Connection test failed:", error);
+          if (error.message.includes('relation "submissions" does not exist')) {
+            toast.error("❌ Database table 'submissions' does not exist. Please create it first!");
+          } else {
+            toast.error(`❌ Database connection failed: ${error.message}`);
+          }
+          return;
+        }
+
+        console.log("Connection test successful, proceeding with data fetch");
+        fetchSubmissions();
+      } catch (err: any) {
+        console.error("Connection test error:", err);
+        toast.error(`❌ Connection error: ${err.message}`);
+      }
+    };
+
+    testConnection();
 
     // Set up polling for live updates (since realtime is not available)
     const interval = setInterval(() => {
