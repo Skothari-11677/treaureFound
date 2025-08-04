@@ -1,139 +1,123 @@
-import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabase";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { toast } from "sonner";
-import { Shield, RefreshCw, Users, Trophy, Star, Clock } from "lucide-react";
-import Navigation from "./Navigation";
-import MatrixBackground from "./MatrixBackground";
+import { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabase'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Badge } from './ui/badge'
+import { Button } from './ui/button'
+import { toast } from 'sonner'
+import { Shield, RefreshCw, Users, Trophy, Star, Clock } from 'lucide-react'
+import Navigation from './Navigation'
+import MatrixBackground from './MatrixBackground'
 
 interface Submission {
-  id: number;
-  team_id: string;
-  level: number;
-  password: string;
-  difficulty_rating: number;
-  created_at: string;
+  id: number
+  team_id: string
+  level: number
+  password: string
+  difficulty_rating: number
+  created_at: string
 }
 
 export default function AdminPanel() {
-  const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [submissions, setSubmissions] = useState<Submission[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
 
   const fetchSubmissions = async () => {
     try {
       const { data, error } = await supabase
-        .from("submissions")
-        .select("*")
-        .order("created_at", { ascending: false });
+        .from('submissions')
+        .select('*')
+        .order('created_at', { ascending: false })
 
       if (error) {
-        console.error("Error fetching submissions:", error);
-        toast.error("Failed to fetch submissions");
+        console.error('Error fetching submissions:', error)
+        toast.error('Failed to fetch submissions')
       } else {
-        setSubmissions(data || []);
-        setLastUpdate(new Date());
+        setSubmissions(data || [])
+        setLastUpdate(new Date())
       }
     } catch (error) {
-      console.error("Network error:", error);
-      toast.error("Network error occurred");
+      console.error('Network error:', error)
+      toast.error('Network error occurred')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchSubmissions();
+    fetchSubmissions()
 
-    // Set up real-time subscription
-    const subscription = supabase
-      .channel("submissions")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "submissions",
-        },
-        (payload) => {
-          console.log("New submission:", payload);
-          setSubmissions((prev) => [payload.new as Submission, ...prev]);
-          setLastUpdate(new Date());
-          toast.success(
-            `New submission from Team ${(payload.new as Submission).team_id}!`,
-          );
-        },
-      )
-      .subscribe();
+    // Since realtime is not available, use polling every 5 seconds for live updates
+    const interval = setInterval(async () => {
+      const currentCount = submissions.length
+      await fetchSubmissions()
 
-    // Auto-refresh every 30 seconds as backup
-    const interval = setInterval(fetchSubmissions, 30000);
+      // Check if new submissions were added
+      const { data } = await supabase
+        .from('submissions')
+        .select('*', { count: 'exact' })
+        .limit(1)
+
+      if (data && currentCount > 0) {
+        // Re-fetch to get latest data
+        fetchSubmissions()
+      }
+    }, 5000) // Poll every 5 seconds for near real-time updates
 
     return () => {
-      subscription.unsubscribe();
-      clearInterval(interval);
-    };
-  }, []);
+      clearInterval(interval)
+    }
+  }, [submissions.length])
 
   const getTeamStats = () => {
-    const teamMap = new Map<
-      string,
-      { maxLevel: number; submissions: number; lastSubmission: string }
-    >();
-
-    submissions.forEach((sub) => {
-      const existing = teamMap.get(sub.team_id);
+    const teamMap = new Map<string, { maxLevel: number, submissions: number, lastSubmission: string }>()
+    
+    submissions.forEach(sub => {
+      const existing = teamMap.get(sub.team_id)
       if (!existing || sub.level > existing.maxLevel) {
         teamMap.set(sub.team_id, {
           maxLevel: sub.level,
           submissions: (existing?.submissions || 0) + 1,
-          lastSubmission: sub.created_at,
-        });
+          lastSubmission: sub.created_at
+        })
       } else {
         teamMap.set(sub.team_id, {
           ...existing,
-          submissions: existing.submissions + 1,
-        });
+          submissions: existing.submissions + 1
+        })
       }
-    });
+    })
 
     return Array.from(teamMap.entries())
       .map(([teamId, stats]) => ({ teamId, ...stats }))
-      .sort(
-        (a, b) => b.maxLevel - a.maxLevel || a.teamId.localeCompare(b.teamId),
-      );
-  };
+      .sort((a, b) => b.maxLevel - a.maxLevel || a.teamId.localeCompare(b.teamId))
+  }
 
   const getLevelStats = () => {
-    const levelMap = new Map<number, number>();
-    submissions.forEach((sub) => {
-      levelMap.set(sub.level, (levelMap.get(sub.level) || 0) + 1);
-    });
-    return levelMap;
-  };
+    const levelMap = new Map<number, number>()
+    submissions.forEach(sub => {
+      levelMap.set(sub.level, (levelMap.get(sub.level) || 0) + 1)
+    })
+    return levelMap
+  }
 
-  const teamStats = getTeamStats();
-  const levelStats = getLevelStats();
+  const teamStats = getTeamStats()
+  const levelStats = getLevelStats()
 
   const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString();
-  };
+    return new Date(dateString).toLocaleTimeString()
+  }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
-  };
+    return new Date(dateString).toLocaleDateString()
+  }
 
   const getLevelColor = (level: number) => {
-    if (level >= 8)
-      return "bg-terminal-red/20 text-terminal-red border-terminal-red";
-    if (level >= 6)
-      return "bg-terminal-yellow/20 text-terminal-yellow border-terminal-yellow";
-    if (level >= 4)
-      return "bg-terminal-cyan/20 text-terminal-cyan border-terminal-cyan";
-    return "bg-terminal-green/20 text-terminal-green border-terminal-green";
-  };
+    if (level >= 8) return 'bg-terminal-red/20 text-terminal-red border-terminal-red'
+    if (level >= 6) return 'bg-terminal-yellow/20 text-terminal-yellow border-terminal-yellow'
+    if (level >= 4) return 'bg-terminal-cyan/20 text-terminal-cyan border-terminal-cyan'
+    return 'bg-terminal-green/20 text-terminal-green border-terminal-green'
+  }
 
   return (
     <div className="min-h-screen bg-background terminal-bg p-4">
@@ -157,15 +141,13 @@ export default function AdminPanel() {
               <p>Last Update: {lastUpdate.toLocaleTimeString()}</p>
               <p>Total Submissions: {submissions.length}</p>
             </div>
-            <Button
-              onClick={fetchSubmissions}
+            <Button 
+              onClick={fetchSubmissions} 
               disabled={isLoading}
               variant="outline"
               className="border-terminal-green text-terminal-green hover:bg-terminal-green/10"
             >
-              <RefreshCw
-                className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
-              />
+              <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
               Refresh
             </Button>
           </div>
@@ -182,11 +164,8 @@ export default function AdminPanel() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {Array.from({ length: 10 }, (_, i) => i + 1).map((level) => (
-                  <div
-                    key={level}
-                    className="flex items-center justify-between"
-                  >
+                {Array.from({ length: 10 }, (_, i) => i + 1).map(level => (
+                  <div key={level} className="flex items-center justify-between">
                     <Badge variant="outline" className={getLevelColor(level)}>
                       Level {level}
                     </Badge>
@@ -209,59 +188,45 @@ export default function AdminPanel() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-80 overflow-y-auto">
-                {teamStats.map(
-                  (
-                    { teamId, maxLevel, submissions, lastSubmission },
-                    index,
-                  ) => (
-                    <div
-                      key={teamId}
-                      className={`p-3 rounded border ${
-                        index < 3
-                          ? "border-terminal-yellow bg-terminal-yellow/10"
-                          : "border-terminal-green-dim bg-card/50"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-bold text-terminal-green">
-                          Team {teamId}
-                        </span>
-                        {index < 3 && (
-                          <Badge className="bg-terminal-yellow/20 text-terminal-yellow border-terminal-yellow">
-                            #{index + 1}
-                          </Badge>
-                        )}
+                {teamStats.map(({ teamId, maxLevel, submissions, lastSubmission }, index) => (
+                  <div 
+                    key={teamId}
+                    className={`p-3 rounded border ${
+                      index < 3 
+                        ? 'border-terminal-yellow bg-terminal-yellow/10' 
+                        : 'border-terminal-green-dim bg-card/50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-terminal-green">
+                        Team {teamId}
+                      </span>
+                      {index < 3 && (
+                        <Badge className="bg-terminal-yellow/20 text-terminal-yellow border-terminal-yellow">
+                          #{index + 1}
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="text-terminal-green-dim">Max Level:</span>
+                        <Badge variant="outline" className={getLevelColor(maxLevel)}>
+                          {maxLevel}
+                        </Badge>
                       </div>
-                      <div className="space-y-1 text-sm">
-                        <div className="flex items-center justify-between">
-                          <span className="text-terminal-green-dim">
-                            Max Level:
-                          </span>
-                          <Badge
-                            variant="outline"
-                            className={getLevelColor(maxLevel)}
-                          >
-                            {maxLevel}
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-terminal-green-dim">
-                            Submissions:
-                          </span>
-                          <span className="text-terminal-green font-mono">
-                            {submissions}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-terminal-green-dim">Last:</span>
-                          <span className="text-terminal-green-dim font-mono text-xs">
-                            {formatTime(lastSubmission)}
-                          </span>
-                        </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-terminal-green-dim">Submissions:</span>
+                        <span className="text-terminal-green font-mono">{submissions}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-terminal-green-dim">Last:</span>
+                        <span className="text-terminal-green-dim font-mono text-xs">
+                          {formatTime(lastSubmission)}
+                        </span>
                       </div>
                     </div>
-                  ),
-                )}
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
@@ -278,42 +243,26 @@ export default function AdminPanel() {
           <CardContent>
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {submissions.map((submission) => (
-                <div
+                <div 
                   key={submission.id}
                   className="flex items-center justify-between p-3 bg-card/50 rounded border border-terminal-green-dim"
                 >
                   <div className="flex items-center gap-4">
-                    <Badge
-                      variant="outline"
-                      className="text-terminal-green border-terminal-green"
-                    >
+                    <Badge variant="outline" className="text-terminal-green border-terminal-green">
                       Team {submission.team_id}
                     </Badge>
-                    <Badge
-                      variant="outline"
-                      className={getLevelColor(submission.level)}
-                    >
+                    <Badge variant="outline" className={getLevelColor(submission.level)}>
                       Level {submission.level}
                     </Badge>
                     <div className="flex items-center gap-1">
-                      {Array.from(
-                        { length: submission.difficulty_rating },
-                        (_, i) => (
-                          <Star
-                            key={i}
-                            size={12}
-                            className="text-terminal-yellow"
-                            fill="currentColor"
-                          />
-                        ),
-                      )}
+                      {Array.from({ length: submission.difficulty_rating }, (_, i) => (
+                        <Star key={i} size={12} className="text-terminal-yellow" fill="currentColor" />
+                      ))}
                     </div>
                   </div>
                   <div className="text-right text-sm text-terminal-green-dim">
                     <div>{formatDate(submission.created_at)}</div>
-                    <div className="font-mono">
-                      {formatTime(submission.created_at)}
-                    </div>
+                    <div className="font-mono">{formatTime(submission.created_at)}</div>
                   </div>
                 </div>
               ))}
@@ -327,5 +276,5 @@ export default function AdminPanel() {
         </Card>
       </div>
     </div>
-  );
+  )
 }
