@@ -21,6 +21,7 @@ export default function AdminPanel() {
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
+  const [lastSubmissionId, setLastSubmissionId] = useState<number>(0)
 
   const fetchSubmissions = async () => {
     try {
