@@ -210,17 +210,28 @@ export default function AdminPanel() {
                 Live Polling (3s)
               </p>
             </div>
-            <Button
-              onClick={() => fetchSubmissions()}
-              disabled={isLoading}
-              variant="outline"
-              className="border-terminal-green text-terminal-green hover:bg-terminal-green/10"
-            >
-              <RefreshCw
-                className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
-              />
-              Refresh
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setShowResetDialog(true)}
+                variant="outline"
+                className="border-terminal-red text-terminal-red hover:bg-terminal-red/10"
+                size="sm"
+              >
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reset
+              </Button>
+              <Button
+                onClick={() => fetchSubmissions()}
+                disabled={isLoading}
+                variant="outline"
+                className="border-terminal-green text-terminal-green hover:bg-terminal-green/10"
+              >
+                <RefreshCw
+                  className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
+                />
+                Refresh
+              </Button>
+            </div>
           </div>
         </div>
 
