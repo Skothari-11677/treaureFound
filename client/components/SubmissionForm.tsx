@@ -18,7 +18,7 @@ import {
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { supabase } from "../lib/supabase";
-import { validatePassword, generateTeamOptions } from "../lib/levels";
+import { validatePassword, generateTeamOptionsWithNames, getTeamName } from "../lib/levels";
 import { toast } from "sonner";
 import { Star, Terminal, Lock, Users, AlertCircle } from "lucide-react";
 import MatrixBackground from "./MatrixBackground";
@@ -33,7 +33,7 @@ export default function SubmissionForm() {
     time: string;
   } | null>(null);
 
-  const teamOptions = generateTeamOptions();
+  const teamOptions = generateTeamOptionsWithNames();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -176,14 +176,14 @@ export default function SubmissionForm() {
                   <SelectTrigger className="bg-input border-terminal-green-dim text-foreground">
                     <SelectValue placeholder="Select your team (101-160)" />
                   </SelectTrigger>
-                  <SelectContent className="bg-popover border-terminal-green-dim">
+                  <SelectContent className="bg-popover border-terminal-green-dim max-h-60 overflow-y-auto">
                     {teamOptions.map((team) => (
                       <SelectItem
-                        key={team}
-                        value={team}
+                        key={team.id}
+                        value={team.id}
                         className="text-foreground"
                       >
-                        Team {team}
+                        {team.id} - {team.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
