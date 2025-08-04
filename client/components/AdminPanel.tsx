@@ -6,7 +6,6 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
 import { Shield, RefreshCw, Users, Trophy, Star, Clock, RotateCcw } from "lucide-react";
-import Navigation from "./Navigation";
 import MatrixBackground from "./MatrixBackground";
 
 interface Submission {
