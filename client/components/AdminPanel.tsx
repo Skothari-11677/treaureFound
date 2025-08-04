@@ -64,8 +64,10 @@ export default function AdminPanel() {
         // Provide specific error messages
         if (errorMessage.includes('relation "submissions" does not exist')) {
           toast.error(
-            "❌ Database table not found! Please run the SQL setup script in Supabase.",
+            "❌ Database table 'submissions' not found! Please create the table in Supabase first.",
+            { duration: 10000 }
           );
+          console.log("🔧 To fix this: Go to Supabase → SQL Editor → Run the setup script from database-setup.sql");
         } else if (errorMessage.includes("permission denied")) {
           toast.error("❌ Database access denied. Check Supabase permissions.");
         } else if (errorMessage.includes("JWT")) {
