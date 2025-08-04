@@ -59,29 +59,18 @@ export default function AdminPanel() {
   }
 
   useEffect(() => {
+    // Initial fetch
     fetchSubmissions()
 
-    // Since realtime is not available, use polling every 5 seconds for live updates
-    const interval = setInterval(async () => {
-      const currentCount = submissions.length
-      await fetchSubmissions()
-
-      // Check if new submissions were added
-      const { data } = await supabase
-        .from('submissions')
-        .select('*', { count: 'exact' })
-        .limit(1)
-
-      if (data && currentCount > 0) {
-        // Re-fetch to get latest data
-        fetchSubmissions()
-      }
-    }, 5000) // Poll every 5 seconds for near real-time updates
+    // Set up polling for live updates (since realtime is not available)
+    const interval = setInterval(() => {
+      fetchSubmissions(true) // Pass true to show new submission toasts
+    }, 3000) // Poll every 3 seconds for near real-time updates
 
     return () => {
       clearInterval(interval)
     }
-  }, [submissions.length])
+  }, [])
 
   const getTeamStats = () => {
     const teamMap = new Map<string, { maxLevel: number, submissions: number, lastSubmission: string }>()
