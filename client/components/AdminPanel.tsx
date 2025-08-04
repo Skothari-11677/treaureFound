@@ -392,19 +392,16 @@ export default function AdminPanel() {
                   return (
                     <div key={level} className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <Badge
-                          variant="outline"
-                          className={getLevelColor(level)}
-                        >
+                        <span className="text-sm font-medium text-foreground">
                           Level {level}
-                        </Badge>
-                        <span className="text-terminal-green font-mono text-sm">
+                        </span>
+                        <span className="text-muted-foreground font-mono text-sm">
                           {count} teams ({percentage.toFixed(0)}%)
                         </span>
                       </div>
-                      <div className="w-full bg-terminal-green-dim/20 rounded-full h-2">
+                      <div className="w-full bg-muted/20 rounded-full h-2">
                         <div
-                          className="bg-terminal-green rounded-full h-2 transition-all duration-300"
+                          className="bg-primary rounded-full h-2 transition-all duration-300"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
