@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SubmissionForm from "./components/SubmissionForm";
 import AdminPanel from "./components/AdminPanel";
+import TestSupabase from "./pages/TestSupabase";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -19,10 +20,10 @@ const App = () => (
       <Sonner
         toastOptions={{
           style: {
-            background: "hsl(var(--card))",
-            color: "hsl(var(--terminal-green))",
-            border: "1px solid hsl(var(--terminal-green))",
-            fontFamily: "Fira Code, monospace",
+            background: 'hsl(var(--card))',
+            color: 'hsl(var(--terminal-green))',
+            border: '1px solid hsl(var(--terminal-green))',
+            fontFamily: 'Fira Code, monospace',
           },
         }}
       />
