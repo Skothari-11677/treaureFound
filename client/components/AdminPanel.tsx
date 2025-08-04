@@ -125,6 +125,7 @@ export default function AdminPanel() {
 
   return (
     <div className="min-h-screen bg-background terminal-bg p-4">
+      <Navigation />
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
