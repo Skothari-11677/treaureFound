@@ -156,25 +156,57 @@ export default function AdminPanel() {
 
     setIsResetting(true);
     try {
-      // Delete all submissions (including test entries)
-      const { error } = await supabase
+      console.log("🔄 Starting reset process...");
+
+      // First, get all existing records to verify count
+      const { data: existingData, error: countError } = await supabase
+        .from("submissions")
+        .select("id", { count: "exact" });
+
+      if (countError) {
+        console.error("Error counting records:", countError);
+        toast.error(`❌ Failed to access database: ${countError.message}`);
+        return;
+      }
+
+      const recordCount = existingData?.length || 0;
+      console.log(`📊 Found ${recordCount} records to delete`);
+
+      if (recordCount === 0) {
+        toast.success("✅ Database is already empty!");
+        setShowResetDialog(false);
+        setResetPassword("");
+        return;
+      }
+
+      // Delete all submissions using a more reliable method
+      const { error: deleteError } = await supabase
         .from("submissions")
         .delete()
-        .neq("id", 0); // Delete all records
+        .gte("id", 0); // Delete all records where id >= 0 (which is all records)
 
-      if (error) {
-        console.error("Reset error:", error);
-        toast.error("❌ Failed to reset submissions");
+      if (deleteError) {
+        console.error("Reset error:", deleteError);
+        toast.error(`❌ Failed to reset submissions: ${deleteError.message}`);
       } else {
-        toast.success("✅ All submissions have been reset!");
+        console.log("✅ Successfully deleted all records");
+        toast.success(`✅ Successfully deleted ${recordCount} submissions!`);
+
+        // Clear local state
         setSubmissions([]);
         setShowResetDialog(false);
         setResetPassword("");
         setLastSubmissionId(0);
+
+        // Refresh data to confirm deletion
+        setTimeout(() => {
+          fetchSubmissions();
+        }, 1000);
       }
     } catch (error: any) {
       console.error("Reset error:", error);
-      toast.error("❌ Network error during reset");
+      const errorMessage = error?.message || error?.details || JSON.stringify(error);
+      toast.error(`❌ Network error during reset: ${errorMessage}`);
     } finally {
       setIsResetting(false);
     }
