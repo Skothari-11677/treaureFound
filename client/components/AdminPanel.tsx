@@ -144,8 +144,8 @@ export default function AdminPanel() {
               <p>Last Update: {lastUpdate.toLocaleTimeString()}</p>
               <p>Total Submissions: {submissions.length}</p>
             </div>
-            <Button 
-              onClick={fetchSubmissions} 
+            <Button
+              onClick={() => fetchSubmissions()}
               disabled={isLoading}
               variant="outline"
               className="border-terminal-green text-terminal-green hover:bg-terminal-green/10"
