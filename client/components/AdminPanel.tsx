@@ -342,7 +342,7 @@ export default function AdminPanel() {
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-semibold text-foreground">
-                            Team {teamId}
+                            {teamId} - {getTeamName(teamId)}
                           </span>
                           {index < 3 && (
                             <Badge variant="secondary" className="text-xs">
