@@ -59,19 +59,24 @@ export default function AdminPanel() {
         console.error("Error fetching submissions:", error);
 
         // Extract error message properly
-        const errorMessage = error?.message || error?.details || JSON.stringify(error);
+        const errorMessage =
+          error?.message || error?.details || JSON.stringify(error);
 
         // Provide specific error messages
         if (errorMessage.includes('relation "submissions" does not exist')) {
           toast.error(
             "❌ Database table 'submissions' not found! Please create the table in Supabase first.",
-            { duration: 10000 }
+            { duration: 10000 },
           );
-          console.log("🔧 To fix this: Go to Supabase → SQL Editor → Run the setup script from database-setup.sql");
+          console.log(
+            "🔧 To fix this: Go to Supabase → SQL Editor → Run the setup script from database-setup.sql",
+          );
         } else if (errorMessage.includes("permission denied")) {
           toast.error("❌ Database access denied. Check Supabase permissions.");
         } else if (errorMessage.includes("JWT")) {
-          toast.error("❌ Authentication error. Please check Supabase credentials.");
+          toast.error(
+            "❌ Authentication error. Please check Supabase credentials.",
+          );
         } else {
           toast.error(`❌ Database error: ${errorMessage}`);
         }
@@ -104,7 +109,8 @@ export default function AdminPanel() {
       }
     } catch (error: any) {
       console.error("Network error:", error);
-      const errorMessage = error?.message || error?.details || JSON.stringify(error);
+      const errorMessage =
+        error?.message || error?.details || JSON.stringify(error);
       toast.error(`❌ Network error: ${errorMessage}`);
     } finally {
       setIsLoading(false);
@@ -116,12 +122,17 @@ export default function AdminPanel() {
     const testConnection = async () => {
       try {
         console.log("Testing Supabase connection...");
-        const { data, error } = await supabase.from("submissions").select("count", { count: "exact" }).limit(0);
+        const { data, error } = await supabase
+          .from("submissions")
+          .select("count", { count: "exact" })
+          .limit(0);
 
         if (error) {
           console.error("Connection test failed:", error);
           if (error.message.includes('relation "submissions" does not exist')) {
-            toast.error("❌ Database table 'submissions' does not exist. Please create it first!");
+            toast.error(
+              "❌ Database table 'submissions' does not exist. Please create it first!",
+            );
           } else {
             toast.error(`❌ Database connection failed: ${error.message}`);
           }
@@ -202,7 +213,7 @@ export default function AdminPanel() {
 
           // Method 3: Manual deletion of each record
           if (existingData && existingData.length > 0) {
-            const ids = existingData.map(record => record.id);
+            const ids = existingData.map((record) => record.id);
             const { error: deleteError3 } = await supabase
               .from("submissions")
               .delete()
@@ -222,7 +233,9 @@ export default function AdminPanel() {
         toast.error(`❌ Failed to reset submissions: ${deleteError.message}`);
       } else {
         console.log("✅ Successfully deleted all records");
-        toast.success(`✅ Successfully deleted ${recordCount} submissions!`, { duration: 5000 });
+        toast.success(`✅ Successfully deleted ${recordCount} submissions!`, {
+          duration: 5000,
+        });
 
         // Clear local state
         setSubmissions([]);
@@ -238,7 +251,8 @@ export default function AdminPanel() {
       }
     } catch (error: any) {
       console.error("Reset error:", error);
-      const errorMessage = error?.message || error?.details || JSON.stringify(error);
+      const errorMessage =
+        error?.message || error?.details || JSON.stringify(error);
       toast.error(`❌ Network error during reset: ${errorMessage}`);
     } finally {
       setIsResetting(false);
@@ -443,18 +457,27 @@ export default function AdminPanel() {
                           )}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Last: {formatTime(lastSubmission)} • Rating: {avgRating.toFixed(1)}/5
+                          Last: {formatTime(lastSubmission)} • Rating:{" "}
+                          {avgRating.toFixed(1)}/5
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 text-right">
                       <div>
-                        <div className="font-medium text-foreground">Level {maxLevel}</div>
-                        <div className="text-xs text-muted-foreground">Max Level</div>
+                        <div className="font-medium text-foreground">
+                          Level {maxLevel}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          Max Level
+                        </div>
                       </div>
                       <div>
-                        <div className="font-medium text-foreground">{submissions}</div>
-                        <div className="text-xs text-muted-foreground">Submissions</div>
+                        <div className="font-medium text-foreground">
+                          {submissions}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          Submissions
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -466,7 +489,9 @@ export default function AdminPanel() {
                     No submissions yet
                   </div>
                   <div className="text-sm text-muted-foreground bg-muted/20 p-4 rounded-lg">
-                    <p className="font-medium mb-2">If this is your first time:</p>
+                    <p className="font-medium mb-2">
+                      If this is your first time:
+                    </p>
                     <ol className="text-left list-decimal list-inside space-y-1">
                       <li>Go to your Supabase dashboard</li>
                       <li>Open SQL Editor</li>
@@ -566,7 +591,8 @@ export default function AdminPanel() {
                             0,
                           ) / submissions.length
                         ).toFixed(1)
-                      : "0"}/5
+                      : "0"}
+                    /5
                   </div>
                   <div className="text-xs text-muted-foreground">
                     Avg Level Rating
@@ -684,10 +710,12 @@ export default function AdminPanel() {
               </h3>
               <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 mb-4">
                 <p className="text-foreground font-medium text-sm">
-                  This will permanently delete ALL {submissions.length} submissions from the database.
+                  This will permanently delete ALL {submissions.length}{" "}
+                  submissions from the database.
                 </p>
                 <p className="text-muted-foreground text-sm mt-1">
-                  This action cannot be undone and will clear the entire leaderboard.
+                  This action cannot be undone and will clear the entire
+                  leaderboard.
                 </p>
               </div>
               <div className="space-y-4">
@@ -702,7 +730,7 @@ export default function AdminPanel() {
                     className="mt-1"
                     placeholder="Enter: GDG-IET"
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && resetPassword && !isResetting) {
+                      if (e.key === "Enter" && resetPassword && !isResetting) {
                         handleReset();
                       }
                     }}
@@ -722,7 +750,11 @@ export default function AdminPanel() {
                   </Button>
                   <Button
                     onClick={handleReset}
-                    disabled={isResetting || !resetPassword || resetPassword !== "GDG-IET"}
+                    disabled={
+                      isResetting ||
+                      !resetPassword ||
+                      resetPassword !== "GDG-IET"
+                    }
                     variant="destructive"
                     className="flex-1"
                   >
