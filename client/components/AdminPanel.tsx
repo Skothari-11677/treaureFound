@@ -25,7 +25,7 @@ import {
   Activity,
 } from "lucide-react";
 import MatrixBackground from "./MatrixBackground";
-import { resetService } from "../lib/resetService";
+import EventResetButton from "./EventResetButton";
 
 interface Submission {
   id: number;
