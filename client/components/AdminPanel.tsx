@@ -146,39 +146,15 @@ export default function AdminPanel() {
     };
   }, []);
 
-  const handleReset = async () => {
-    setIsResetting(true);
+  const handleResetComplete = () => {
+    // Clear local state after reset
+    setSubmissions([]);
+    setLastSubmissionId(0);
 
-    try {
-      console.log("🚀 Executing complete database reset...");
-
-      const result = await resetService.performCompleteReset(resetPassword);
-
-      if (result.success) {
-        // Reset successful - update UI
-        console.log(`✅ Reset completed: ${result.deletedCount} records deleted`);
-        setSubmissions([]);
-        setShowResetDialog(false);
-        setResetPassword("");
-        setLastSubmissionId(0);
-
-        // Refresh data after a brief delay to confirm
-        setTimeout(() => {
-          fetchSubmissions();
-          console.log("🔄 Data refresh completed");
-        }, 2000);
-
-      } else {
-        // Reset failed - keep dialog open for retry
-        console.error("Reset failed:", result.message);
-      }
-
-    } catch (error: any) {
-      console.error("Critical reset error:", error);
-      toast.error(`❌ Critical error: ${error.message || 'Unknown error'}`);
-    } finally {
-      setIsResetting(false);
-    }
+    // Refresh data to confirm reset
+    setTimeout(() => {
+      fetchSubmissions();
+    }, 1000);
   };
 
   const getTeamStats = () => {
