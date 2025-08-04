@@ -303,14 +303,14 @@ export default function AdminPanel() {
           </div>
         </div>
 
-        {/* Team Leaderboard - Top Priority */}
-        <Card className="bg-card/80 border-terminal-green mb-6">
+        {/* Team Leaderboard */}
+        <Card className="bg-card/80 border-border mb-6">
           <CardHeader>
-            <CardTitle className="text-terminal-green flex items-center gap-2">
-              <Trophy size={24} />
-              🏆 TEAM LEADERBOARD
+            <CardTitle className="text-foreground flex items-center gap-2">
+              <Trophy size={20} />
+              Team Leaderboard
             </CardTitle>
-            <p className="text-terminal-green-dim text-sm">
+            <p className="text-muted-foreground text-sm">
               Live rankings based on highest level achieved
             </p>
           </CardHeader>
