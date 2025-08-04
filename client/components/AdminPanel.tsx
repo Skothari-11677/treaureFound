@@ -502,14 +502,14 @@ export default function AdminPanel() {
                 </SelectTrigger>
                 <SelectContent className="bg-popover border-terminal-green-dim max-h-60">
                   {teamOptions.map((team) => {
-                    const teamData = teamStats.find((t) => t.teamId === team);
+                    const teamData = teamStats.find((t) => t.teamId === team.id);
                     return (
                       <SelectItem
-                        key={team}
-                        value={team}
+                        key={team.id}
+                        value={team.id}
                         className="text-foreground"
                       >
-                        Team {team}{" "}
+                        {team.id} - {team.name}{" "}
                         {teamData
                           ? `(Level ${teamData.maxLevel}, ${teamData.submissions} submissions)`
                           : "(No submissions)"}
