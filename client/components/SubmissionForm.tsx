@@ -33,7 +33,7 @@ export default function SubmissionForm() {
     time: string;
   } | null>(null);
 
-  const teamOptions = generateTeamOptionsWithNames();
+  const teamOptions = generateTeamOptions();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
