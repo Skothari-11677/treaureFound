@@ -5,7 +5,15 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
-import { Shield, RefreshCw, Users, Trophy, Star, Clock, RotateCcw } from "lucide-react";
+import {
+  Shield,
+  RefreshCw,
+  Users,
+  Trophy,
+  Star,
+  Clock,
+  RotateCcw,
+} from "lucide-react";
 import MatrixBackground from "./MatrixBackground";
 
 interface Submission {
@@ -23,7 +31,7 @@ export default function AdminPanel() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [lastSubmissionId, setLastSubmissionId] = useState<number>(0);
   const [showResetDialog, setShowResetDialog] = useState(false);
-  const [resetPassword, setResetPassword] = useState('');
+  const [resetPassword, setResetPassword] = useState("");
   const [isResetting, setIsResetting] = useState(false);
 
   const fetchSubmissions = async (showNewSubmissionToast = false) => {
@@ -49,7 +57,9 @@ export default function AdminPanel() {
       } else {
         const newData = data || [];
         // Filter out test entries (team 999)
-        const filteredData = newData.filter(submission => submission.team_id !== '999');
+        const filteredData = newData.filter(
+          (submission) => submission.team_id !== "999",
+        );
 
         // Check for new submissions
         if (
@@ -94,8 +104,8 @@ export default function AdminPanel() {
   }, []);
 
   const handleReset = async () => {
-    if (resetPassword !== 'GDG-IET') {
-      toast.error('❌ Incorrect password!');
+    if (resetPassword !== "GDG-IET") {
+      toast.error("❌ Incorrect password!");
       return;
     }
 
@@ -103,23 +113,23 @@ export default function AdminPanel() {
     try {
       // Delete all submissions (including test entries)
       const { error } = await supabase
-        .from('submissions')
+        .from("submissions")
         .delete()
-        .neq('id', 0); // Delete all records
+        .neq("id", 0); // Delete all records
 
       if (error) {
-        console.error('Reset error:', error);
-        toast.error('❌ Failed to reset submissions');
+        console.error("Reset error:", error);
+        toast.error("❌ Failed to reset submissions");
       } else {
-        toast.success('✅ All submissions have been reset!');
+        toast.success("✅ All submissions have been reset!");
         setSubmissions([]);
         setShowResetDialog(false);
-        setResetPassword('');
+        setResetPassword("");
         setLastSubmissionId(0);
       }
     } catch (error: any) {
-      console.error('Reset error:', error);
-      toast.error('❌ Network error during reset');
+      console.error("Reset error:", error);
+      toast.error("❌ Network error during reset");
     } finally {
       setIsResetting(false);
     }
@@ -396,7 +406,8 @@ export default function AdminPanel() {
                 ⚠️ Reset All Submissions
               </h3>
               <p className="text-terminal-green-dim mb-4">
-                This will permanently delete ALL submissions. This action cannot be undone.
+                This will permanently delete ALL submissions. This action cannot
+                be undone.
               </p>
               <div className="space-y-4">
                 <div>
@@ -415,7 +426,7 @@ export default function AdminPanel() {
                   <Button
                     onClick={() => {
                       setShowResetDialog(false);
-                      setResetPassword('');
+                      setResetPassword("");
                     }}
                     variant="outline"
                     className="flex-1"
@@ -433,7 +444,7 @@ export default function AdminPanel() {
                         Resetting...
                       </>
                     ) : (
-                      'Reset All'
+                      "Reset All"
                     )}
                   </Button>
                 </div>
