@@ -523,7 +523,7 @@ export default function AdminPanel() {
                 <div className="mt-4 p-4 bg-muted/10 rounded-lg border border-border">
                   <div className="flex items-center gap-4 mb-4">
                     <h3 className="text-lg font-semibold text-foreground">
-                      Team {selectedTeam}
+                      {selectedTeam} - {getTeamName(selectedTeam)}
                     </h3>
                     <Badge variant="outline">
                       Max Level: {selectedTeamDetails.maxLevel}
