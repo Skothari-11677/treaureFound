@@ -10,6 +10,7 @@ import {
 } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { AlertCircle, CheckCircle, Database, Wifi } from "lucide-react";
+import SetupChecker from "../components/SetupChecker";
 
 export default function TestSupabase() {
   const [tests, setTests] = useState<{
