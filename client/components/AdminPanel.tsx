@@ -389,6 +389,60 @@ export default function AdminPanel() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Reset Dialog */}
+        {showResetDialog && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-card border border-terminal-red rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-lg font-bold text-terminal-red mb-4">
+                ⚠️ Reset All Submissions
+              </h3>
+              <p className="text-terminal-green-dim mb-4">
+                This will permanently delete ALL submissions. This action cannot be undone.
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-terminal-green text-sm font-medium">
+                    Enter admin password:
+                  </label>
+                  <Input
+                    type="password"
+                    value={resetPassword}
+                    onChange={(e) => setResetPassword(e.target.value)}
+                    className="mt-1 bg-input border-terminal-red text-foreground"
+                    placeholder="Admin password required"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      setShowResetDialog(false);
+                      setResetPassword('');
+                    }}
+                    variant="outline"
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleReset}
+                    disabled={isResetting || !resetPassword}
+                    className="flex-1 bg-terminal-red hover:bg-terminal-red/90 text-black"
+                  >
+                    {isResetting ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+                        Resetting...
+                      </>
+                    ) : (
+                      'Reset All'
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
