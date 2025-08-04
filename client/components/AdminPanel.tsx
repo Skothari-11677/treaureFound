@@ -4,7 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { toast } from "sonner";
 import {
   Shield,
@@ -48,11 +54,9 @@ export default function AdminPanel() {
 
       if (error) {
         console.error("Error fetching submissions:", error);
-        
+
         // Provide specific error messages
-        if (
-          error.message.includes('relation "submissions" does not exist')
-        ) {
+        if (error.message.includes('relation "submissions" does not exist')) {
           toast.error(
             "❌ Database table not found! Please run the SQL setup script in Supabase.",
           );
@@ -145,7 +149,12 @@ export default function AdminPanel() {
   const getTeamStats = () => {
     const teamMap = new Map<
       string,
-      { maxLevel: number; submissions: number; lastSubmission: string; avgRating: number }
+      {
+        maxLevel: number;
+        submissions: number;
+        lastSubmission: string;
+        avgRating: number;
+      }
     >();
 
     submissions.forEach((sub) => {
@@ -155,15 +164,20 @@ export default function AdminPanel() {
           maxLevel: sub.level,
           submissions: (existing?.submissions || 0) + 1,
           lastSubmission: sub.created_at,
-          avgRating: existing 
-            ? ((existing.avgRating * existing.submissions) + sub.difficulty_rating) / ((existing.submissions || 0) + 1)
-            : sub.difficulty_rating
+          avgRating: existing
+            ? (existing.avgRating * existing.submissions +
+                sub.difficulty_rating) /
+              ((existing.submissions || 0) + 1)
+            : sub.difficulty_rating,
         });
       } else {
         teamMap.set(sub.team_id, {
           ...existing,
           submissions: existing.submissions + 1,
-          avgRating: ((existing.avgRating * (existing.submissions - 1)) + sub.difficulty_rating) / existing.submissions
+          avgRating:
+            (existing.avgRating * (existing.submissions - 1) +
+              sub.difficulty_rating) /
+            existing.submissions,
         });
       }
     });
@@ -188,20 +202,29 @@ export default function AdminPanel() {
 
   const getSelectedTeamDetails = () => {
     if (!selectedTeam) return null;
-    
-    const teamSubmissions = submissions.filter(sub => sub.team_id === selectedTeam);
-    const levels = teamSubmissions.map(sub => ({
-      level: sub.level,
-      rating: sub.difficulty_rating,
-      time: sub.created_at,
-      password: sub.password
-    })).sort((a, b) => b.level - a.level);
-    
+
+    const teamSubmissions = submissions.filter(
+      (sub) => sub.team_id === selectedTeam,
+    );
+    const levels = teamSubmissions
+      .map((sub) => ({
+        level: sub.level,
+        rating: sub.difficulty_rating,
+        time: sub.created_at,
+        password: sub.password,
+      }))
+      .sort((a, b) => b.level - a.level);
+
     return {
       totalSubmissions: teamSubmissions.length,
-      maxLevel: Math.max(...levels.map(l => l.level), 0),
-      averageRating: levels.length > 0 ? (levels.reduce((sum, l) => sum + l.rating, 0) / levels.length).toFixed(1) : "0",
-      levels: levels
+      maxLevel: Math.max(...levels.map((l) => l.level), 0),
+      averageRating:
+        levels.length > 0
+          ? (
+              levels.reduce((sum, l) => sum + l.rating, 0) / levels.length
+            ).toFixed(1)
+          : "0",
+      levels: levels,
     };
   };
 
@@ -226,7 +249,9 @@ export default function AdminPanel() {
   };
 
   // Generate team options for dropdown
-  const teamOptions = Array.from({ length: 60 }, (_, i) => (101 + i).toString());
+  const teamOptions = Array.from({ length: 60 }, (_, i) =>
+    (101 + i).toString(),
+  );
 
   return (
     <div className="min-h-screen bg-background terminal-bg p-4">
@@ -291,54 +316,74 @@ export default function AdminPanel() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2 max-h-96 overflow-y-auto">
-              {teamStats.map(({ teamId, maxLevel, submissions, lastSubmission, avgRating }, index) => (
-                <div
-                  key={teamId}
-                  className={`p-4 rounded-lg border flex items-center justify-between ${
-                    index < 3
-                      ? "border-terminal-yellow bg-terminal-yellow/10 terminal-glow"
-                      : "border-terminal-green-dim bg-card/50"
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`text-2xl font-bold ${
-                      index < 3 ? "text-terminal-yellow" : "text-terminal-green"
-                    }`}>
-                      #{index + 1}
+              {teamStats.map(
+                (
+                  { teamId, maxLevel, submissions, lastSubmission, avgRating },
+                  index,
+                ) => (
+                  <div
+                    key={teamId}
+                    className={`p-4 rounded-lg border flex items-center justify-between ${
+                      index < 3
+                        ? "border-terminal-yellow bg-terminal-yellow/10 terminal-glow"
+                        : "border-terminal-green-dim bg-card/50"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`text-2xl font-bold ${
+                          index < 3
+                            ? "text-terminal-yellow"
+                            : "text-terminal-green"
+                        }`}
+                      >
+                        #{index + 1}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-bold text-terminal-green text-lg">
+                            Team {teamId}
+                          </span>
+                          {index < 3 && (
+                            <Badge className="bg-terminal-yellow/20 text-terminal-yellow border-terminal-yellow">
+                              🥇 TOP 3
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="text-xs text-terminal-green-dim">
+                          Last active: {formatTime(lastSubmission)} • Avg
+                          Rating: {avgRating.toFixed(1)}⭐
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-bold text-terminal-green text-lg">
-                          Team {teamId}
+                    <div className="flex items-center gap-6">
+                      <div className="text-center">
+                        <Badge
+                          variant="outline"
+                          className={`${getLevelColor(maxLevel)} text-lg px-3 py-1`}
+                        >
+                          Level {maxLevel}
+                        </Badge>
+                        <div className="text-xs text-terminal-green-dim mt-1">
+                          Max Level
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <span className="text-terminal-green font-mono text-lg">
+                          {submissions}
                         </span>
-                        {index < 3 && (
-                          <Badge className="bg-terminal-yellow/20 text-terminal-yellow border-terminal-yellow">
-                            🥇 TOP 3
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="text-xs text-terminal-green-dim">
-                        Last active: {formatTime(lastSubmission)} • Avg Rating: {avgRating.toFixed(1)}⭐
+                        <div className="text-xs text-terminal-green-dim">
+                          Submissions
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-6">
-                    <div className="text-center">
-                      <Badge variant="outline" className={`${getLevelColor(maxLevel)} text-lg px-3 py-1`}>
-                        Level {maxLevel}
-                      </Badge>
-                      <div className="text-xs text-terminal-green-dim mt-1">Max Level</div>
-                    </div>
-                    <div className="text-center">
-                      <span className="text-terminal-green font-mono text-lg">{submissions}</span>
-                      <div className="text-xs text-terminal-green-dim">Submissions</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
               {teamStats.length === 0 && (
                 <div className="text-center py-8 text-terminal-green-dim">
-                  No teams have submitted yet. Waiting for the challenge to begin... 🔓
+                  No teams have submitted yet. Waiting for the challenge to
+                  begin... 🔓
                 </div>
               )}
             </div>
@@ -359,11 +404,17 @@ export default function AdminPanel() {
               <div className="space-y-3">
                 {Array.from({ length: 10 }, (_, i) => i + 1).map((level) => {
                   const count = levelStats.get(level) || 0;
-                  const percentage = submissions.length > 0 ? (count / submissions.length) * 100 : 0;
+                  const percentage =
+                    submissions.length > 0
+                      ? (count / submissions.length) * 100
+                      : 0;
                   return (
                     <div key={level} className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <Badge variant="outline" className={getLevelColor(level)}>
+                        <Badge
+                          variant="outline"
+                          className={getLevelColor(level)}
+                        >
                           Level {level}
                         </Badge>
                         <span className="text-terminal-green font-mono text-sm">
@@ -371,7 +422,7 @@ export default function AdminPanel() {
                         </span>
                       </div>
                       <div className="w-full bg-terminal-green-dim/20 rounded-full h-2">
-                        <div 
+                        <div
                           className="bg-terminal-green rounded-full h-2 transition-all duration-300"
                           style={{ width: `${percentage}%` }}
                         />
@@ -394,24 +445,46 @@ export default function AdminPanel() {
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
-                  <div className="text-2xl font-bold text-terminal-green">{teamStats.length}</div>
-                  <div className="text-xs text-terminal-green-dim">Active Teams</div>
-                </div>
-                <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
-                  <div className="text-2xl font-bold text-terminal-green">{submissions.length}</div>
-                  <div className="text-xs text-terminal-green-dim">Total Submissions</div>
+                  <div className="text-2xl font-bold text-terminal-green">
+                    {teamStats.length}
+                  </div>
+                  <div className="text-xs text-terminal-green-dim">
+                    Active Teams
+                  </div>
                 </div>
                 <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
                   <div className="text-2xl font-bold text-terminal-green">
-                    {teamStats.length > 0 ? Math.max(...teamStats.map(t => t.maxLevel)) : 0}
+                    {submissions.length}
                   </div>
-                  <div className="text-xs text-terminal-green-dim">Highest Level</div>
+                  <div className="text-xs text-terminal-green-dim">
+                    Total Submissions
+                  </div>
                 </div>
                 <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
                   <div className="text-2xl font-bold text-terminal-green">
-                    {submissions.length > 0 ? (submissions.reduce((sum, s) => sum + s.difficulty_rating, 0) / submissions.length).toFixed(1) : "0"}⭐
+                    {teamStats.length > 0
+                      ? Math.max(...teamStats.map((t) => t.maxLevel))
+                      : 0}
                   </div>
-                  <div className="text-xs text-terminal-green-dim">Avg Level Rating</div>
+                  <div className="text-xs text-terminal-green-dim">
+                    Highest Level
+                  </div>
+                </div>
+                <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
+                  <div className="text-2xl font-bold text-terminal-green">
+                    {submissions.length > 0
+                      ? (
+                          submissions.reduce(
+                            (sum, s) => sum + s.difficulty_rating,
+                            0,
+                          ) / submissions.length
+                        ).toFixed(1)
+                      : "0"}
+                    ⭐
+                  </div>
+                  <div className="text-xs text-terminal-green-dim">
+                    Avg Level Rating
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -437,10 +510,17 @@ export default function AdminPanel() {
                 </SelectTrigger>
                 <SelectContent className="bg-popover border-terminal-green-dim max-h-60">
                   {teamOptions.map((team) => {
-                    const teamData = teamStats.find(t => t.teamId === team);
+                    const teamData = teamStats.find((t) => t.teamId === team);
                     return (
-                      <SelectItem key={team} value={team} className="text-foreground">
-                        Team {team} {teamData ? `(Level ${teamData.maxLevel}, ${teamData.submissions} submissions)` : '(No submissions)'}
+                      <SelectItem
+                        key={team}
+                        value={team}
+                        className="text-foreground"
+                      >
+                        Team {team}{" "}
+                        {teamData
+                          ? `(Level ${teamData.maxLevel}, ${teamData.submissions} submissions)`
+                          : "(No submissions)"}
                       </SelectItem>
                     );
                   })}
@@ -450,38 +530,66 @@ export default function AdminPanel() {
               {selectedTeamDetails && (
                 <div className="mt-4 p-4 bg-terminal-green/5 rounded-lg border border-terminal-green-dim">
                   <div className="flex items-center gap-4 mb-4">
-                    <h3 className="text-lg font-bold text-terminal-green">Team {selectedTeam}</h3>
-                    <Badge variant="outline" className={getLevelColor(selectedTeamDetails.maxLevel)}>
+                    <h3 className="text-lg font-bold text-terminal-green">
+                      Team {selectedTeam}
+                    </h3>
+                    <Badge
+                      variant="outline"
+                      className={getLevelColor(selectedTeamDetails.maxLevel)}
+                    >
                       Max Level: {selectedTeamDetails.maxLevel}
                     </Badge>
-                    <Badge variant="outline" className="text-terminal-green border-terminal-green">
+                    <Badge
+                      variant="outline"
+                      className="text-terminal-green border-terminal-green"
+                    >
                       {selectedTeamDetails.totalSubmissions} Submissions
                     </Badge>
-                    <Badge variant="outline" className="text-terminal-yellow border-terminal-yellow">
+                    <Badge
+                      variant="outline"
+                      className="text-terminal-yellow border-terminal-yellow"
+                    >
                       {selectedTeamDetails.averageRating}⭐ Avg Rating
                     </Badge>
                   </div>
-                  
+
                   {selectedTeamDetails.levels.length > 0 && (
                     <div className="space-y-2">
-                      <h4 className="text-sm font-medium text-terminal-green-dim">Submission History:</h4>
+                      <h4 className="text-sm font-medium text-terminal-green-dim">
+                        Submission History:
+                      </h4>
                       {selectedTeamDetails.levels.map((submission, index) => (
-                        <div key={index} className="flex items-center justify-between p-2 bg-card/50 rounded border border-terminal-green-dim">
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-2 bg-card/50 rounded border border-terminal-green-dim"
+                        >
                           <div className="flex items-center gap-3">
-                            <Badge variant="outline" className={getLevelColor(submission.level)}>
+                            <Badge
+                              variant="outline"
+                              className={getLevelColor(submission.level)}
+                            >
                               Level {submission.level}
                             </Badge>
                             <div className="flex items-center gap-1">
-                              {Array.from({ length: submission.rating }, (_, i) => (
-                                <Star key={i} size={12} className="text-terminal-yellow" fill="currentColor" />
-                              ))}
+                              {Array.from(
+                                { length: submission.rating },
+                                (_, i) => (
+                                  <Star
+                                    key={i}
+                                    size={12}
+                                    className="text-terminal-yellow"
+                                    fill="currentColor"
+                                  />
+                                ),
+                              )}
                               <span className="text-xs text-terminal-green-dim ml-1">
                                 ({submission.rating}/5)
                               </span>
                             </div>
                           </div>
                           <div className="text-xs text-terminal-green-dim">
-                            {formatDate(submission.time)} {formatTime(submission.time)}
+                            {formatDate(submission.time)}{" "}
+                            {formatTime(submission.time)}
                           </div>
                         </div>
                       ))}
