@@ -247,6 +247,8 @@ export default function TestSupabase() {
           </CardContent>
         </Card>
 
+        <SetupChecker />
+
         <Card>
           <CardHeader>
             <CardTitle>📋 Setup Checklist</CardTitle>
