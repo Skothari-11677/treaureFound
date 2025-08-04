@@ -261,9 +261,7 @@ export default function AdminPanel() {
   };
 
   // Generate team options for dropdown
-  const teamOptions = Array.from({ length: 60 }, (_, i) =>
-    (101 + i).toString(),
-  );
+  const teamOptions = generateTeamOptionsWithNames();
 
   return (
     <div className="min-h-screen bg-background terminal-bg p-4">
