@@ -259,22 +259,22 @@ export default function AdminPanel() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <Shield className="text-terminal-green" size={32} />
+            <Shield className="text-primary" size={32} />
             <div>
-              <h1 className="text-3xl font-bold terminal-text">
-                ADMIN CONTROL PANEL
+              <h1 className="text-3xl font-bold text-foreground">
+                Admin Control Panel
               </h1>
-              <p className="text-terminal-green-dim">
+              <p className="text-muted-foreground">
                 Real-time submission monitoring
               </p>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-right text-sm text-terminal-green-dim">
+            <div className="text-right text-sm text-muted-foreground">
               <p>Last Update: {lastUpdate.toLocaleTimeString()}</p>
               <p>Total Submissions: {submissions.length}</p>
               <p className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-terminal-green rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                 Live Polling (3s)
               </p>
             </div>
@@ -282,7 +282,7 @@ export default function AdminPanel() {
               <Button
                 onClick={() => setShowResetDialog(true)}
                 variant="outline"
-                className="border-terminal-red text-terminal-red hover:bg-terminal-red/10"
+                className="border-destructive text-destructive hover:bg-destructive/10"
                 size="sm"
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
@@ -292,7 +292,6 @@ export default function AdminPanel() {
                 onClick={() => fetchSubmissions()}
                 disabled={isLoading}
                 variant="outline"
-                className="border-terminal-green text-terminal-green hover:bg-terminal-green/10"
               >
                 <RefreshCw
                   className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
