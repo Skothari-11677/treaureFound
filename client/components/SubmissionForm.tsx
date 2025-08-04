@@ -179,15 +179,22 @@ export default function SubmissionForm() {
                   <SelectContent className="bg-popover border-terminal-green-dim max-h-60 overflow-y-auto">
                     {teamOptions.map((team) => (
                       <SelectItem
-                        key={team.id}
-                        value={team.id}
+                        key={team}
+                        value={team}
                         className="text-foreground"
                       >
-                        {team.id} - {team.name}
+                        Team {team}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                {teamId && (
+                  <div className="mt-2 p-2 bg-terminal-green/10 border border-terminal-green/30 rounded-md">
+                    <p className="text-sm text-terminal-green font-medium">
+                      Selected: Team {teamId} - {getTeamName(teamId)}
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
