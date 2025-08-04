@@ -412,44 +412,44 @@ export default function AdminPanel() {
             </CardContent>
           </Card>
 
-          {/* Quick Stats */}
-          <Card className="bg-card/80 border-terminal-green">
+          {/* Challenge Statistics */}
+          <Card className="bg-card/80 border-border">
             <CardHeader>
-              <CardTitle className="text-terminal-green flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <TrendingUp size={20} />
                 Challenge Statistics
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
-                  <div className="text-2xl font-bold text-terminal-green">
+                <div className="text-center p-3 bg-muted/20 rounded-lg">
+                  <div className="text-2xl font-bold text-foreground">
                     {teamStats.length}
                   </div>
-                  <div className="text-xs text-terminal-green-dim">
+                  <div className="text-xs text-muted-foreground">
                     Active Teams
                   </div>
                 </div>
-                <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
-                  <div className="text-2xl font-bold text-terminal-green">
+                <div className="text-center p-3 bg-muted/20 rounded-lg">
+                  <div className="text-2xl font-bold text-foreground">
                     {submissions.length}
                   </div>
-                  <div className="text-xs text-terminal-green-dim">
+                  <div className="text-xs text-muted-foreground">
                     Total Submissions
                   </div>
                 </div>
-                <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
-                  <div className="text-2xl font-bold text-terminal-green">
+                <div className="text-center p-3 bg-muted/20 rounded-lg">
+                  <div className="text-2xl font-bold text-foreground">
                     {teamStats.length > 0
                       ? Math.max(...teamStats.map((t) => t.maxLevel))
                       : 0}
                   </div>
-                  <div className="text-xs text-terminal-green-dim">
+                  <div className="text-xs text-muted-foreground">
                     Highest Level
                   </div>
                 </div>
-                <div className="text-center p-3 bg-terminal-green/10 rounded-lg">
-                  <div className="text-2xl font-bold text-terminal-green">
+                <div className="text-center p-3 bg-muted/20 rounded-lg">
+                  <div className="text-2xl font-bold text-foreground">
                     {submissions.length > 0
                       ? (
                           submissions.reduce(
@@ -457,10 +457,9 @@ export default function AdminPanel() {
                             0,
                           ) / submissions.length
                         ).toFixed(1)
-                      : "0"}
-                    ⭐
+                      : "0"}/5
                   </div>
-                  <div className="text-xs text-terminal-green-dim">
+                  <div className="text-xs text-muted-foreground">
                     Avg Level Rating
                   </div>
                 </div>
