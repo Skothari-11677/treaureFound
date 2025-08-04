@@ -32,7 +32,15 @@ export default function AdminPanel() {
 
       if (error) {
         console.error("Error fetching submissions:", error);
-        toast.error("Failed to fetch submissions");
+
+        // Provide specific error messages
+        if (error.message.includes('relation "submissions" does not exist')) {
+          toast.error("❌ Database table not found! Please run the SQL setup script in Supabase.");
+        } else if (error.message.includes('permission denied')) {
+          toast.error("❌ Database access denied. Check Supabase permissions.");
+        } else {
+          toast.error(`❌ Database error: ${error.message}`);
+        }
       } else {
         const newData = data || [];
 
