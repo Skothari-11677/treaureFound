@@ -505,28 +505,19 @@ export default function AdminPanel() {
               </Select>
 
               {selectedTeamDetails && (
-                <div className="mt-4 p-4 bg-terminal-green/5 rounded-lg border border-terminal-green-dim">
+                <div className="mt-4 p-4 bg-muted/10 rounded-lg border border-border">
                   <div className="flex items-center gap-4 mb-4">
-                    <h3 className="text-lg font-bold text-terminal-green">
+                    <h3 className="text-lg font-semibold text-foreground">
                       Team {selectedTeam}
                     </h3>
-                    <Badge
-                      variant="outline"
-                      className={getLevelColor(selectedTeamDetails.maxLevel)}
-                    >
+                    <Badge variant="outline">
                       Max Level: {selectedTeamDetails.maxLevel}
                     </Badge>
-                    <Badge
-                      variant="outline"
-                      className="text-terminal-green border-terminal-green"
-                    >
+                    <Badge variant="outline">
                       {selectedTeamDetails.totalSubmissions} Submissions
                     </Badge>
-                    <Badge
-                      variant="outline"
-                      className="text-terminal-yellow border-terminal-yellow"
-                    >
-                      {selectedTeamDetails.averageRating}⭐ Avg Rating
+                    <Badge variant="outline">
+                      {selectedTeamDetails.averageRating}/5 Avg Rating
                     </Badge>
                   </div>
 
