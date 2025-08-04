@@ -37,6 +37,7 @@ export default function AdminPanel() {
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [resetPassword, setResetPassword] = useState("");
   const [isResetting, setIsResetting] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<string>("");
 
   const fetchSubmissions = async (showNewSubmissionToast = false) => {
     try {
