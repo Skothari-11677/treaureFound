@@ -19,10 +19,10 @@ const App = () => (
       <Sonner
         toastOptions={{
           style: {
-            background: 'hsl(var(--card))',
-            color: 'hsl(var(--terminal-green))',
-            border: '1px solid hsl(var(--terminal-green))',
-            fontFamily: 'Fira Code, monospace',
+            background: "hsl(var(--card))",
+            color: "hsl(var(--terminal-green))",
+            border: "1px solid hsl(var(--terminal-green))",
+            fontFamily: "Fira Code, monospace",
           },
         }}
       />

@@ -1,68 +1,83 @@
-import { useState } from 'react'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
-import { Label } from './ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
-import { Badge } from './ui/badge'
-import { supabase } from '../lib/supabase'
-import { validatePassword, generateTeamOptions } from '../lib/levels'
-import { toast } from 'sonner'
-import { Star, Terminal, Lock, Users, AlertCircle } from 'lucide-react'
-import Navigation from './Navigation'
-import MatrixBackground from './MatrixBackground'
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Badge } from "./ui/badge";
+import { supabase } from "../lib/supabase";
+import { validatePassword, generateTeamOptions } from "../lib/levels";
+import { toast } from "sonner";
+import { Star, Terminal, Lock, Users, AlertCircle } from "lucide-react";
+import Navigation from "./Navigation";
+import MatrixBackground from "./MatrixBackground";
 
 export default function SubmissionForm() {
-  const [teamId, setTeamId] = useState('')
-  const [password, setPassword] = useState('')
-  const [difficultyRating, setDifficultyRating] = useState<number>(0)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [lastSubmission, setLastSubmission] = useState<{level: number, time: string} | null>(null)
+  const [teamId, setTeamId] = useState("");
+  const [password, setPassword] = useState("");
+  const [difficultyRating, setDifficultyRating] = useState<number>(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lastSubmission, setLastSubmission] = useState<{
+    level: number;
+    time: string;
+  } | null>(null);
 
-  const teamOptions = generateTeamOptions()
+  const teamOptions = generateTeamOptions();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     if (!teamId || !password || difficultyRating === 0) {
-      toast.error('Please fill in all fields')
-      return
+      toast.error("Please fill in all fields");
+      return;
     }
 
-    const level = validatePassword(password)
+    const level = validatePassword(password);
     if (!level) {
-      toast.error('Invalid password! Make sure you entered the correct password.')
-      return
+      toast.error(
+        "Invalid password! Make sure you entered the correct password.",
+      );
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      const { error } = await supabase
-        .from('submissions')
-        .insert({
-          team_id: teamId,
-          level: level,
-          password: password,
-          difficulty_rating: difficultyRating
-        })
+      const { error } = await supabase.from("submissions").insert({
+        team_id: teamId,
+        level: level,
+        password: password,
+        difficulty_rating: difficultyRating,
+      });
 
       if (error) {
-        console.error('Submission error:', error)
-        toast.error('Failed to submit. Please try again.')
+        console.error("Submission error:", error);
+        toast.error("Failed to submit. Please try again.");
       } else {
-        toast.success(`Level ${level} completed successfully! 🎉`)
-        setLastSubmission({ level, time: new Date().toLocaleTimeString() })
-        setPassword('')
-        setDifficultyRating(0)
+        toast.success(`Level ${level} completed successfully! 🎉`);
+        setLastSubmission({ level, time: new Date().toLocaleTimeString() });
+        setPassword("");
+        setDifficultyRating(0);
       }
     } catch (error) {
-      console.error('Submission error:', error)
-      toast.error('Network error. Please check your connection.')
+      console.error("Submission error:", error);
+      toast.error("Network error. Please check your connection.");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const renderStars = () => {
     return (
@@ -73,20 +88,20 @@ export default function SubmissionForm() {
             type="button"
             onClick={() => setDifficultyRating(star)}
             className={`p-1 transition-colors ${
-              star <= difficultyRating 
-                ? 'text-terminal-yellow' 
-                : 'text-muted-foreground hover:text-terminal-yellow'
+              star <= difficultyRating
+                ? "text-terminal-yellow"
+                : "text-muted-foreground hover:text-terminal-yellow"
             }`}
           >
-            <Star 
-              size={20} 
-              fill={star <= difficultyRating ? 'currentColor' : 'none'} 
+            <Star
+              size={20}
+              fill={star <= difficultyRating ? "currentColor" : "none"}
             />
           </button>
         ))}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-background terminal-bg p-4">
@@ -109,7 +124,10 @@ export default function SubmissionForm() {
           <Card className="mb-6 bg-card/50 border-terminal-green terminal-glow">
             <CardContent className="p-4">
               <div className="flex items-center gap-2">
-                <Badge variant="outline" className="bg-terminal-green/20 text-terminal-green border-terminal-green">
+                <Badge
+                  variant="outline"
+                  className="bg-terminal-green/20 text-terminal-green border-terminal-green"
+                >
                   LEVEL {lastSubmission.level} COMPLETED
                 </Badge>
                 <span className="text-xs text-terminal-green-dim">
@@ -133,7 +151,10 @@ export default function SubmissionForm() {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="team" className="text-terminal-green flex items-center gap-2">
+                <Label
+                  htmlFor="team"
+                  className="text-terminal-green flex items-center gap-2"
+                >
                   <Users size={16} />
                   Team ID
                 </Label>
@@ -143,7 +164,11 @@ export default function SubmissionForm() {
                   </SelectTrigger>
                   <SelectContent className="bg-popover border-terminal-green-dim">
                     {teamOptions.map((team) => (
-                      <SelectItem key={team} value={team} className="text-foreground">
+                      <SelectItem
+                        key={team}
+                        value={team}
+                        className="text-foreground"
+                      >
                         Team {team}
                       </SelectItem>
                     ))}
@@ -152,7 +177,10 @@ export default function SubmissionForm() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-terminal-green flex items-center gap-2">
+                <Label
+                  htmlFor="password"
+                  className="text-terminal-green flex items-center gap-2"
+                >
                   <Lock size={16} />
                   Level Password
                 </Label>
@@ -179,13 +207,15 @@ export default function SubmissionForm() {
                 <div className="flex items-center gap-2">
                   {renderStars()}
                   <span className="text-xs text-terminal-green-dim ml-2">
-                    {difficultyRating === 0 ? 'Rate the difficulty' : `${difficultyRating}/5 stars`}
+                    {difficultyRating === 0
+                      ? "Rate the difficulty"
+                      : `${difficultyRating}/5 stars`}
                   </span>
                 </div>
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isSubmitting}
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground terminal-glow"
               >
@@ -195,7 +225,7 @@ export default function SubmissionForm() {
                     Submitting...
                   </div>
                 ) : (
-                  'Submit Progress'
+                  "Submit Progress"
                 )}
               </Button>
             </form>
@@ -212,5 +242,5 @@ export default function SubmissionForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }
