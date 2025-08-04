@@ -143,6 +143,10 @@ export default function AdminPanel() {
             <div className="text-right text-sm text-terminal-green-dim">
               <p>Last Update: {lastUpdate.toLocaleTimeString()}</p>
               <p>Total Submissions: {submissions.length}</p>
+              <p className="flex items-center gap-1">
+                <div className="w-2 h-2 bg-terminal-green rounded-full animate-pulse"></div>
+                Live Polling (3s)
+              </p>
             </div>
             <Button
               onClick={() => fetchSubmissions()}
