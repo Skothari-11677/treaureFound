@@ -47,10 +47,13 @@ export default function AdminPanel() {
 
   const fetchSubmissions = async (showNewSubmissionToast = false) => {
     try {
+      console.log("Attempting to fetch submissions from Supabase...");
       const { data, error } = await supabase
         .from("submissions")
         .select("*")
         .order("created_at", { ascending: false });
+
+      console.log("Supabase response:", { data, error });
 
       if (error) {
         console.error("Error fetching submissions:", error);
