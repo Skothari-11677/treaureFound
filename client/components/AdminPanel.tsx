@@ -150,97 +150,35 @@ export default function AdminPanel() {
   }, []);
 
   const handleReset = async () => {
-    if (resetPassword !== "GDG-IET") {
-      toast.error("❌ Incorrect password!");
-      return;
-    }
-
     setIsResetting(true);
+
     try {
-      console.log("🔄 Starting reset process...");
+      console.log("🚀 Executing complete database reset...");
 
-      // First, get all existing records to verify count
-      const { data: existingData, error: countError } = await supabase
-        .from("submissions")
-        .select("id", { count: "exact" });
+      const result = await resetService.performCompleteReset(resetPassword);
 
-      if (countError) {
-        console.error("Error counting records:", countError);
-        toast.error(`❌ Failed to access database: ${countError.message}`);
-        return;
-      }
-
-      const recordCount = existingData?.length || 0;
-      console.log(`📊 Found ${recordCount} records to delete`);
-
-      if (recordCount === 0) {
-        toast.success("✅ Database is already empty!");
-        setShowResetDialog(false);
-        setResetPassword("");
-        return;
-      }
-
-      // Delete all submissions using a more reliable method
-      let deleteError = null;
-
-      // Method 1: Delete with gte filter
-      const { error: deleteError1 } = await supabase
-        .from("submissions")
-        .delete()
-        .gte("id", 0); // Delete all records where id >= 0
-
-      if (deleteError1) {
-        console.log("Method 1 failed, trying method 2...");
-
-        // Method 2: Delete with not equals to impossible value
-        const { error: deleteError2 } = await supabase
-          .from("submissions")
-          .delete()
-          .neq("id", -999999); // Delete all records where id != -999999 (all records)
-
-        if (deleteError2) {
-          console.log("Method 2 failed, trying method 3...");
-
-          // Method 3: Manual deletion of each record
-          if (existingData && existingData.length > 0) {
-            const ids = existingData.map(record => record.id);
-            const { error: deleteError3 } = await supabase
-              .from("submissions")
-              .delete()
-              .in("id", ids);
-
-            deleteError = deleteError3;
-          }
-        } else {
-          deleteError = null;
-        }
-      } else {
-        deleteError = null;
-      }
-
-      if (deleteError) {
-        console.error("All reset methods failed:", deleteError);
-        toast.error(`❌ Failed to reset submissions: ${deleteError.message}`);
-      } else {
-        console.log("✅ Successfully deleted all records");
-        toast.success(`✅ Successfully deleted ${recordCount} submissions!`, { duration: 5000 });
-
-        // Clear local state
+      if (result.success) {
+        // Reset successful - update UI
+        console.log(`✅ Reset completed: ${result.deletedCount} records deleted`);
         setSubmissions([]);
         setShowResetDialog(false);
         setResetPassword("");
         setLastSubmissionId(0);
 
-        // Refresh data to confirm deletion
+        // Refresh data after a brief delay to confirm
         setTimeout(() => {
           fetchSubmissions();
-          toast.success("🔄 Data refreshed - reset confirmed!");
-        }, 1500);
+          console.log("🔄 Data refresh completed");
+        }, 2000);
+
+      } else {
+        // Reset failed - keep dialog open for retry
+        console.error("Reset failed:", result.message);
       }
+
     } catch (error: any) {
-      console.error("Reset error:", error);
-      const errorMessage = error?.message || error?.details || JSON.stringify(error);
-      toast.error(`❌ Network error during reset: ${errorMessage}`);
+      console.error("Critical reset error:", error);
+      toast.error(`❌ Critical error: ${error.message || 'Unknown error'}`);
     } finally {
       setIsResetting(false);
     }
