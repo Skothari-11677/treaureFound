@@ -22,6 +22,9 @@ export default function AdminPanel() {
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [lastSubmissionId, setLastSubmissionId] = useState<number>(0);
+  const [showResetDialog, setShowResetDialog] = useState(false);
+  const [resetPassword, setResetPassword] = useState('');
+  const [isResetting, setIsResetting] = useState(false);
 
   const fetchSubmissions = async (showNewSubmissionToast = false) => {
     try {
