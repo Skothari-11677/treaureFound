@@ -55,15 +55,20 @@ export default function AdminPanel() {
       if (error) {
         console.error("Error fetching submissions:", error);
 
+        // Extract error message properly
+        const errorMessage = error?.message || error?.details || JSON.stringify(error);
+
         // Provide specific error messages
-        if (error.message.includes('relation "submissions" does not exist')) {
+        if (errorMessage.includes('relation "submissions" does not exist')) {
           toast.error(
             "❌ Database table not found! Please run the SQL setup script in Supabase.",
           );
-        } else if (error.message.includes("permission denied")) {
+        } else if (errorMessage.includes("permission denied")) {
           toast.error("❌ Database access denied. Check Supabase permissions.");
+        } else if (errorMessage.includes("JWT")) {
+          toast.error("❌ Authentication error. Please check Supabase credentials.");
         } else {
-          toast.error(`❌ Database error: ${error.message}`);
+          toast.error(`❌ Database error: ${errorMessage}`);
         }
       } else {
         const newData = data || [];
