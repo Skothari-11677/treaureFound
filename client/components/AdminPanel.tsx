@@ -93,6 +93,38 @@ export default function AdminPanel() {
     };
   }, []);
 
+  const handleReset = async () => {
+    if (resetPassword !== 'GDG-IET') {
+      toast.error('❌ Incorrect password!');
+      return;
+    }
+
+    setIsResetting(true);
+    try {
+      // Delete all submissions (including test entries)
+      const { error } = await supabase
+        .from('submissions')
+        .delete()
+        .neq('id', 0); // Delete all records
+
+      if (error) {
+        console.error('Reset error:', error);
+        toast.error('❌ Failed to reset submissions');
+      } else {
+        toast.success('✅ All submissions have been reset!');
+        setSubmissions([]);
+        setShowResetDialog(false);
+        setResetPassword('');
+        setLastSubmissionId(0);
+      }
+    } catch (error: any) {
+      console.error('Reset error:', error);
+      toast.error('❌ Network error during reset');
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
   const getTeamStats = () => {
     const teamMap = new Map<
       string,
