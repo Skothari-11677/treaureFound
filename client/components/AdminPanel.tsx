@@ -315,7 +315,7 @@ export default function AdminPanel() {
             </p>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 max-h-96 overflow-y-auto">
+            <div className="space-y-1 max-h-96 overflow-y-auto">
               {teamStats.map(
                 (
                   { teamId, maxLevel, submissions, lastSubmission, avgRating },
@@ -323,67 +323,48 @@ export default function AdminPanel() {
                 ) => (
                   <div
                     key={teamId}
-                    className={`p-4 rounded-lg border flex items-center justify-between ${
+                    className={`p-3 rounded border flex items-center justify-between transition-colors hover:bg-muted/50 ${
                       index < 3
-                        ? "border-terminal-yellow bg-terminal-yellow/10 terminal-glow"
-                        : "border-terminal-green-dim bg-card/50"
+                        ? "border-primary/20 bg-primary/5"
+                        : "border-border bg-background/50"
                     }`}
                   >
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`text-2xl font-bold ${
-                          index < 3
-                            ? "text-terminal-yellow"
-                            : "text-terminal-green"
-                        }`}
-                      >
+                    <div className="flex items-center gap-3">
+                      <div className="text-lg font-medium text-muted-foreground min-w-[2rem]">
                         #{index + 1}
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-bold text-terminal-green text-lg">
+                          <span className="font-semibold text-foreground">
                             Team {teamId}
                           </span>
                           {index < 3 && (
-                            <Badge className="bg-terminal-yellow/20 text-terminal-yellow border-terminal-yellow">
-                              🥇 TOP 3
+                            <Badge variant="secondary" className="text-xs">
+                              TOP 3
                             </Badge>
                           )}
                         </div>
-                        <div className="text-xs text-terminal-green-dim">
-                          Last active: {formatTime(lastSubmission)} • Avg
-                          Rating: {avgRating.toFixed(1)}⭐
+                        <div className="text-xs text-muted-foreground">
+                          Last: {formatTime(lastSubmission)} • Rating: {avgRating.toFixed(1)}/5
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-6">
-                      <div className="text-center">
-                        <Badge
-                          variant="outline"
-                          className={`${getLevelColor(maxLevel)} text-lg px-3 py-1`}
-                        >
-                          Level {maxLevel}
-                        </Badge>
-                        <div className="text-xs text-terminal-green-dim mt-1">
-                          Max Level
-                        </div>
+                    <div className="flex items-center gap-4 text-right">
+                      <div>
+                        <div className="font-medium text-foreground">Level {maxLevel}</div>
+                        <div className="text-xs text-muted-foreground">Max Level</div>
                       </div>
-                      <div className="text-center">
-                        <span className="text-terminal-green font-mono text-lg">
-                          {submissions}
-                        </span>
-                        <div className="text-xs text-terminal-green-dim">
-                          Submissions
-                        </div>
+                      <div>
+                        <div className="font-medium text-foreground">{submissions}</div>
+                        <div className="text-xs text-muted-foreground">Submissions</div>
                       </div>
                     </div>
                   </div>
                 ),
               )}
               {teamStats.length === 0 && (
-                <div className="text-center py-8 text-terminal-green-dim">
-                  No teams have submitted yet. Waiting for the challenge to
-                  begin... 🔓
+                <div className="text-center py-8 text-muted-foreground">
+                  No submissions yet
                 </div>
               )}
             </div>
