@@ -89,6 +89,7 @@ export default function SubmissionForm() {
 
   return (
     <div className="min-h-screen bg-background terminal-bg p-4">
+      <Navigation />
       <div className="max-w-md mx-auto pt-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
