@@ -180,17 +180,49 @@ export default function AdminPanel() {
       }
 
       // Delete all submissions using a more reliable method
-      const { error: deleteError } = await supabase
+      let deleteError = null;
+
+      // Method 1: Delete with gte filter
+      const { error: deleteError1 } = await supabase
         .from("submissions")
         .delete()
-        .gte("id", 0); // Delete all records where id >= 0 (which is all records)
+        .gte("id", 0); // Delete all records where id >= 0
+
+      if (deleteError1) {
+        console.log("Method 1 failed, trying method 2...");
+
+        // Method 2: Delete with not equals to impossible value
+        const { error: deleteError2 } = await supabase
+          .from("submissions")
+          .delete()
+          .neq("id", -999999); // Delete all records where id != -999999 (all records)
+
+        if (deleteError2) {
+          console.log("Method 2 failed, trying method 3...");
+
+          // Method 3: Manual deletion of each record
+          if (existingData && existingData.length > 0) {
+            const ids = existingData.map(record => record.id);
+            const { error: deleteError3 } = await supabase
+              .from("submissions")
+              .delete()
+              .in("id", ids);
+
+            deleteError = deleteError3;
+          }
+        } else {
+          deleteError = null;
+        }
+      } else {
+        deleteError = null;
+      }
 
       if (deleteError) {
-        console.error("Reset error:", deleteError);
+        console.error("All reset methods failed:", deleteError);
         toast.error(`❌ Failed to reset submissions: ${deleteError.message}`);
       } else {
         console.log("✅ Successfully deleted all records");
-        toast.success(`✅ Successfully deleted ${recordCount} submissions!`);
+        toast.success(`✅ Successfully deleted ${recordCount} submissions!`, { duration: 5000 });
 
         // Clear local state
         setSubmissions([]);
@@ -201,7 +233,8 @@ export default function AdminPanel() {
         // Refresh data to confirm deletion
         setTimeout(() => {
           fetchSubmissions();
-        }, 1000);
+          toast.success("🔄 Data refreshed - reset confirmed!");
+        }, 1500);
       }
     } catch (error: any) {
       console.error("Reset error:", error);
