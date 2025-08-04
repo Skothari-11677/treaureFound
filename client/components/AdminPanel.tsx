@@ -97,9 +97,10 @@ export default function AdminPanel() {
         setSubmissions(filteredData);
         setLastUpdate(new Date());
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Network error:", error);
-      toast.error("Network error occurred");
+      const errorMessage = error?.message || error?.details || JSON.stringify(error);
+      toast.error(`❌ Network error: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }
