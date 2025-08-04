@@ -21,7 +21,6 @@ import { supabase } from "../lib/supabase";
 import { validatePassword, generateTeamOptions } from "../lib/levels";
 import { toast } from "sonner";
 import { Star, Terminal, Lock, Users, AlertCircle } from "lucide-react";
-import Navigation from "./Navigation";
 import MatrixBackground from "./MatrixBackground";
 
 export default function SubmissionForm() {
