@@ -223,7 +223,7 @@ export default function AdminPanel() {
         level: sub.level,
         rating: sub.difficulty_rating,
         time: sub.created_at,
-        password: sub.password,
+        // Password removed for security - not displayed in admin panel
       }))
       .sort((a, b) => b.level - a.level);
 
