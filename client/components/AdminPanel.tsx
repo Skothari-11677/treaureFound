@@ -6,6 +6,7 @@ import { Button } from './ui/button'
 import { toast } from 'sonner'
 import { Shield, RefreshCw, Users, Trophy, Star, Clock } from 'lucide-react'
 import Navigation from './Navigation'
+import MatrixBackground from './MatrixBackground'
 
 interface Submission {
   id: number
