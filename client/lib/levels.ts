@@ -88,7 +88,10 @@ export function generateTeamOptions(): string[] {
   return teams;
 }
 
-export function generateTeamOptionsWithNames(): Array<{id: string, name: string}> {
+export function generateTeamOptionsWithNames(): Array<{
+  id: string;
+  name: string;
+}> {
   const teams = [];
   for (let i = 101; i <= 160; i++) {
     const id = i.toString();

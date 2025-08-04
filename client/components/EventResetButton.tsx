@@ -1,39 +1,42 @@
-import { useState } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { toast } from 'sonner';
-import { RotateCcw, AlertTriangle } from 'lucide-react';
-import { resetService } from '../lib/resetService';
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { toast } from "sonner";
+import { RotateCcw, AlertTriangle } from "lucide-react";
+import { resetService } from "../lib/resetService";
 
 interface EventResetButtonProps {
   submissionCount: number;
   onResetComplete: () => void;
 }
 
-export default function EventResetButton({ submissionCount, onResetComplete }: EventResetButtonProps) {
+export default function EventResetButton({
+  submissionCount,
+  onResetComplete,
+}: EventResetButtonProps) {
   const [showDialog, setShowDialog] = useState(false);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [isResetting, setIsResetting] = useState(false);
 
   const handleReset = async () => {
     if (!password) {
-      toast.error('Please enter the admin password');
+      toast.error("Please enter the admin password");
       return;
     }
 
     setIsResetting(true);
-    
+
     try {
       const result = await resetService.performCompleteReset(password);
-      
+
       if (result.success) {
         setShowDialog(false);
-        setPassword('');
+        setPassword("");
         onResetComplete();
-        toast.success('🎉 Event data reset completed! Ready for fresh start.');
+        toast.success("🎉 Event data reset completed! Ready for fresh start.");
       }
     } catch (error) {
-      console.error('Reset error:', error);
+      console.error("Reset error:", error);
     } finally {
       setIsResetting(false);
     }
@@ -81,7 +84,7 @@ export default function EventResetButton({ submissionCount, onResetComplete }: E
                   placeholder="Enter admin password"
                   className="text-center font-mono"
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' && password && !isResetting) {
+                    if (e.key === "Enter" && password && !isResetting) {
                       handleReset();
                     }
                   }}
@@ -93,7 +96,7 @@ export default function EventResetButton({ submissionCount, onResetComplete }: E
                 <Button
                   onClick={() => {
                     setShowDialog(false);
-                    setPassword('');
+                    setPassword("");
                   }}
                   variant="outline"
                   className="flex-1"
@@ -113,7 +116,7 @@ export default function EventResetButton({ submissionCount, onResetComplete }: E
                       Resetting...
                     </>
                   ) : (
-                    'Reset Event Data'
+                    "Reset Event Data"
                   )}
                 </Button>
               </div>

@@ -18,7 +18,11 @@ import {
 } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { supabase } from "../lib/supabase";
-import { validatePassword, generateTeamOptions, getTeamName } from "../lib/levels";
+import {
+  validatePassword,
+  generateTeamOptions,
+  getTeamName,
+} from "../lib/levels";
 import { toast } from "sonner";
 import { Star, Terminal, Lock, Users, AlertCircle } from "lucide-react";
 import MatrixBackground from "./MatrixBackground";
