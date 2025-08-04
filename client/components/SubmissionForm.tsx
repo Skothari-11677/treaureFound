@@ -9,6 +9,7 @@ import { supabase } from '../lib/supabase'
 import { validatePassword, generateTeamOptions } from '../lib/levels'
 import { toast } from 'sonner'
 import { Star, Terminal, Lock, Users, AlertCircle } from 'lucide-react'
+import Navigation from './Navigation'
 
 export default function SubmissionForm() {
   const [teamId, setTeamId] = useState('')
