@@ -523,19 +523,16 @@ export default function AdminPanel() {
 
                   {selectedTeamDetails.levels.length > 0 && (
                     <div className="space-y-2">
-                      <h4 className="text-sm font-medium text-terminal-green-dim">
+                      <h4 className="text-sm font-medium text-muted-foreground">
                         Submission History:
                       </h4>
                       {selectedTeamDetails.levels.map((submission, index) => (
                         <div
                           key={index}
-                          className="flex items-center justify-between p-2 bg-card/50 rounded border border-terminal-green-dim"
+                          className="flex items-center justify-between p-2 bg-background/50 rounded border border-border"
                         >
                           <div className="flex items-center gap-3">
-                            <Badge
-                              variant="outline"
-                              className={getLevelColor(submission.level)}
-                            >
+                            <Badge variant="outline">
                               Level {submission.level}
                             </Badge>
                             <div className="flex items-center gap-1">
@@ -545,17 +542,17 @@ export default function AdminPanel() {
                                   <Star
                                     key={i}
                                     size={12}
-                                    className="text-terminal-yellow"
+                                    className="text-primary"
                                     fill="currentColor"
                                   />
                                 ),
                               )}
-                              <span className="text-xs text-terminal-green-dim ml-1">
+                              <span className="text-xs text-muted-foreground ml-1">
                                 ({submission.rating}/5)
                               </span>
                             </div>
                           </div>
-                          <div className="text-xs text-terminal-green-dim">
+                          <div className="text-xs text-muted-foreground">
                             {formatDate(submission.time)}{" "}
                             {formatTime(submission.time)}
                           </div>
