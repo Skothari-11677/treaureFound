@@ -216,7 +216,7 @@ export default function SubmissionForm() {
               <div className="space-y-2">
                 <Label className="text-terminal-green flex items-center gap-2">
                   <Star size={16} />
-                  Difficulty Rating
+                  Level Rating
                 </Label>
                 <div className="flex items-center gap-2">
                   {renderStars()}
