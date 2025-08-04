@@ -222,7 +222,7 @@ export default function SubmissionForm() {
                   {renderStars()}
                   <span className="text-xs text-terminal-green-dim ml-2">
                     {difficultyRating === 0
-                      ? "Rate the difficulty"
+                      ? "Rate this level"
                       : `${difficultyRating}/5 stars`}
                   </span>
                 </div>
