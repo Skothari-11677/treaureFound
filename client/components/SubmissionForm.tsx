@@ -67,10 +67,14 @@ export default function SubmissionForm() {
 
         // Provide specific error messages
         if (error.message.includes('relation "submissions" does not exist')) {
-          toast.error("❌ Database not set up! Please run the SQL setup script in Supabase first.");
-        } else if (error.message.includes('permission denied')) {
-          toast.error("❌ Database permissions issue. Check RLS policies in Supabase.");
-        } else if (error.message.includes('violates check constraint')) {
+          toast.error(
+            "❌ Database not set up! Please run the SQL setup script in Supabase first.",
+          );
+        } else if (error.message.includes("permission denied")) {
+          toast.error(
+            "❌ Database permissions issue. Check RLS policies in Supabase.",
+          );
+        } else if (error.message.includes("violates check constraint")) {
           toast.error("❌ Invalid data format. Please check your inputs.");
         } else {
           toast.error(`❌ Database error: ${error.message}`);
@@ -83,7 +87,9 @@ export default function SubmissionForm() {
       }
     } catch (error: any) {
       console.error("Submission error:", error);
-      toast.error(`❌ Network error: ${error.message || 'Please check your connection'}`);
+      toast.error(
+        `❌ Network error: ${error.message || "Please check your connection"}`,
+      );
     } finally {
       setIsSubmitting(false);
     }

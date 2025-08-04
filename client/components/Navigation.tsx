@@ -1,11 +1,11 @@
-import { Link, useLocation } from 'react-router-dom'
-import { Button } from './ui/button'
-import { Shield, Terminal, Settings } from 'lucide-react'
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "./ui/button";
+import { Shield, Terminal, Settings } from "lucide-react";
 
 export default function Navigation() {
-  const location = useLocation()
+  const location = useLocation();
 
-  if (location.pathname === '/admin') {
+  if (location.pathname === "/admin") {
     return (
       <div className="fixed top-4 right-4 z-50 flex gap-2">
         <Link to="/test">
@@ -28,10 +28,10 @@ export default function Navigation() {
           </Button>
         </Link>
       </div>
-    )
+    );
   }
 
-  if (location.pathname === '/test') {
+  if (location.pathname === "/test") {
     return (
       <div className="fixed top-4 right-4 z-50 flex gap-2">
         <Link to="/admin">
@@ -54,7 +54,7 @@ export default function Navigation() {
           </Button>
         </Link>
       </div>
-    )
+    );
   }
 
   return (
@@ -80,5 +80,5 @@ export default function Navigation() {
         </Button>
       </Link>
     </div>
-  )
+  );
 }
