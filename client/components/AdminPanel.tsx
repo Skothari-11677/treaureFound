@@ -14,6 +14,9 @@ import {
   Star,
   Clock,
   RotateCcw,
+  ChevronDown,
+  TrendingUp,
+  Activity,
 } from "lucide-react";
 import MatrixBackground from "./MatrixBackground";
 
