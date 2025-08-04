@@ -374,9 +374,9 @@ export default function AdminPanel() {
         {/* Statistics Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Level Distribution */}
-          <Card className="bg-card/80 border-terminal-green">
+          <Card className="bg-card/80 border-border">
             <CardHeader>
-              <CardTitle className="text-terminal-green flex items-center gap-2">
+              <CardTitle className="text-foreground flex items-center gap-2">
                 <Activity size={20} />
                 Level Progress Distribution
               </CardTitle>
