@@ -43,7 +43,6 @@ export default function AdminPanel() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [lastSubmissionId, setLastSubmissionId] = useState<number>(0);
   const [selectedTeam, setSelectedTeam] = useState<string>("");
-  const [showVictoryCelebration, setShowVictoryCelebration] = useState(false);
 
   const fetchSubmissions = async (showNewSubmissionToast = false) => {
     try {
