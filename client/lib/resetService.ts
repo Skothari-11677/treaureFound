@@ -159,7 +159,9 @@ export class ResetService {
     deletedCount?: number;
   }> {
     // Verify password
-    if (!this.verifyPassword(password)) {
+    const isValidPassword = await this.verifyPassword(password);
+    if (!isValidPassword) {
+      toast.error("❌ Incorrect admin password!", { id: "reset-progress" });
       return {
         success: false,
         message: "❌ Incorrect admin password!",
