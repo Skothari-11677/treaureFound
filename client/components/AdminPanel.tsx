@@ -606,13 +606,6 @@ export default function AdminPanel() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Victory Celebration Modal */}
-      <VictoryCelebration
-        teamStats={teamStats}
-        isOpen={showVictoryCelebration}
-        onClose={() => setShowVictoryCelebration(false)}
-      />
     </div>
   );
 }
