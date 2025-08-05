@@ -1,0 +1,19 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Simple terminal window -->
+  <rect width="16" height="16" rx="2" fill="#1a1a1a"/>
+  <rect x="0.5" y="0.5" width="15" height="15" rx="1.5" stroke="#00ff00" stroke-width="0.5"/>
+  
+  <!-- Terminal header -->
+  <rect x="1" y="1" width="14" height="2" fill="#00ff00" opacity="0.3"/>
+  
+  <!-- Command prompt -->
+  <text x="2" y="7" font-family="monospace" font-size="3" fill="#00ff00">$</text>
+  
+  <!-- Shell/arrow -->
+  <path d="M4 5 L6 6 L4 7" stroke="#00ff00" stroke-width="0.5" fill="none"/>
+  
+  <!-- Treasure symbol -->
+  <rect x="9" y="9" width="5" height="3" rx="0.5" fill="none" stroke="#ffd700" stroke-width="0.5"/>
+  <rect x="9.5" y="8" width="4" height="1.5" rx="0.7" fill="none" stroke="#ffd700" stroke-width="0.5"/>
+  <circle cx="11.5" cy="10.5" r="0.5" fill="#ffd700"/>
+</svg>
