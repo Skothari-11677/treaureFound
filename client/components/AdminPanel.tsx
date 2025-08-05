@@ -303,6 +303,15 @@ export default function AdminPanel() {
               </p>
             </div>
             <div className="flex gap-2">
+              <Button
+                onClick={() => setShowVictoryCelebration(true)}
+                disabled={teamStats.length === 0}
+                variant="default"
+                className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-black font-bold"
+              >
+                <PartyPopper className="w-4 h-4 mr-2" />
+                Victory Ceremony
+              </Button>
               <EventResetButton
                 submissionCount={submissions.length}
                 onResetComplete={handleResetComplete}
