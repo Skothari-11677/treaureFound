@@ -24,11 +24,9 @@ import {
   ChevronDown,
   TrendingUp,
   Activity,
-  PartyPopper,
 } from "lucide-react";
 import MatrixBackground from "./MatrixBackground";
 import EventResetButton from "./EventResetButton";
-import VictoryCelebration from "./VictoryCelebration";
 
 interface Submission {
   id: number;
