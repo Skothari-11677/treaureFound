@@ -211,9 +211,7 @@ export default function VictoryCelebration({
             return (
               <div
                 key={team.teamId}
-                className={`transition-all duration-1000 delay-${
-                  index * 500
-                } ${
+                className={`transition-all duration-1000 delay-${index * 500} ${
                   celebrationPhase >= 2
                     ? `opacity-100 translate-y-0 ${scales[index]}`
                     : "opacity-0 translate-y-20"
@@ -224,8 +222,8 @@ export default function VictoryCelebration({
                     index === 0
                       ? "border-yellow-400"
                       : index === 1
-                      ? "border-gray-400"
-                      : "border-amber-600"
+                        ? "border-gray-400"
+                        : "border-amber-600"
                   } ${glows[index]} terminal-glow relative overflow-hidden`}
                 >
                   {/* Sparkle Effects */}
@@ -251,8 +249,8 @@ export default function VictoryCelebration({
                           index === 0
                             ? "bg-yellow-400 text-black"
                             : index === 1
-                            ? "bg-gray-400 text-black"
-                            : "bg-amber-600 text-white"
+                              ? "bg-gray-400 text-black"
+                              : "bg-amber-600 text-white"
                         }`}
                       >
                         {index + 1}
@@ -271,8 +269,8 @@ export default function VictoryCelebration({
                         index === 0
                           ? "border-yellow-400 text-yellow-400"
                           : index === 1
-                          ? "border-gray-400 text-gray-400"
-                          : "border-amber-600 text-amber-600"
+                            ? "border-gray-400 text-gray-400"
+                            : "border-amber-600 text-amber-600"
                       }`}
                     >
                       {getPositionTitle(index)}

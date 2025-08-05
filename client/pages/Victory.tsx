@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
 import { toast } from "sonner";
 import { Shield, Lock, PartyPopper, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -72,7 +77,7 @@ export default function Victory() {
       }
 
       const filteredData = (data || []).filter(
-        (submission) => submission.team_id !== "999"
+        (submission) => submission.team_id !== "999",
       );
 
       setSubmissions(filteredData);
@@ -105,7 +110,8 @@ export default function Victory() {
           submissions: (existing?.submissions || 0) + 1,
           lastSubmission: sub.created_at,
           avgRating: existing
-            ? (existing.avgRating * existing.submissions + sub.difficulty_rating) /
+            ? (existing.avgRating * existing.submissions +
+                sub.difficulty_rating) /
               ((existing.submissions || 0) + 1)
             : sub.difficulty_rating,
         });
@@ -114,7 +120,8 @@ export default function Victory() {
           ...existing,
           submissions: existing.submissions + 1,
           avgRating:
-            (existing.avgRating * (existing.submissions - 1) + sub.difficulty_rating) /
+            (existing.avgRating * (existing.submissions - 1) +
+              sub.difficulty_rating) /
             existing.submissions,
         });
       }
@@ -123,7 +130,7 @@ export default function Victory() {
     return Array.from(teamMap.entries())
       .map(([teamId, stats]) => ({ teamId, ...stats }))
       .sort(
-        (a, b) => b.maxLevel - a.maxLevel || a.teamId.localeCompare(b.teamId)
+        (a, b) => b.maxLevel - a.maxLevel || a.teamId.localeCompare(b.teamId),
       );
   };
 
@@ -272,7 +279,9 @@ export default function Victory() {
               </div>
               <div className="text-center p-4 bg-terminal-green/10 rounded border border-terminal-green/30">
                 <div className="text-3xl font-bold text-terminal-green">
-                  {teamStats.length > 0 ? Math.max(...teamStats.map(t => t.maxLevel)) : 0}
+                  {teamStats.length > 0
+                    ? Math.max(...teamStats.map((t) => t.maxLevel))
+                    : 0}
                 </div>
                 <div className="text-sm text-terminal-green-dim">
                   Highest Level Reached
@@ -306,7 +315,8 @@ export default function Victory() {
                           Team {team.teamId} - {getTeamName(team.teamId)}
                         </div>
                         <div className="text-sm text-terminal-green-dim">
-                          Level {team.maxLevel} • {team.avgRating.toFixed(1)}/5 stars
+                          Level {team.maxLevel} • {team.avgRating.toFixed(1)}/5
+                          stars
                         </div>
                       </div>
                     </div>
@@ -328,7 +338,7 @@ export default function Victory() {
             <PartyPopper className="w-8 h-8 mr-3" />
             🎉 LAUNCH VICTORY CEREMONY 🎉
           </Button>
-          
+
           {teamStats.length === 0 && (
             <p className="text-terminal-green-dim mt-4 text-sm">
               No submissions found. Teams need to complete challenges first.
