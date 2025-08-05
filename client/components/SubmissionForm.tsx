@@ -261,9 +261,6 @@ export default function SubmissionForm() {
           <p className="text-xs text-terminal-green-dim">
             💻 A Terminal Puzzle Challenge 🧠
           </p>
-          <p className="text-xs text-terminal-green-dim mt-1">
-            Google Developer Groups • IET DAVV
-          </p>
         </div>
       </div>
     </div>
