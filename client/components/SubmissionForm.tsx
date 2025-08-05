@@ -127,15 +127,22 @@ export default function SubmissionForm() {
       <MatrixBackground />
       <div className="max-w-md mx-auto pt-8">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Terminal className="text-terminal-green" size={32} />
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Terminal className="text-terminal-green terminal-glow" size={32} />
+            <h1 className="text-2xl font-bold terminal-text tracking-wider">
+              TREASURE IN THE SHELL
+            </h1>
           </div>
-          <h1 className="text-2xl font-bold terminal-text mb-2">
-            TREASURE IN THE SHELL
-          </h1>
-          <p className="text-terminal-green-dim text-sm">
-            A GDG EVENT
-          </p>
+          <div className="mb-3">
+            <p className="text-terminal-green-dim text-sm typing-animation font-mono">
+              CRACK THE CLUES • BREAK THE SHELL • CLAIM THE ROOT
+            </p>
+          </div>
+          <div className="border border-terminal-green/30 rounded px-3 py-1 inline-block bg-terminal-green/5">
+            <p className="text-terminal-green text-xs font-mono tracking-widest">
+              &gt; A GDG EVENT &lt;
+            </p>
+          </div>
         </div>
 
         {lastSubmission && (
