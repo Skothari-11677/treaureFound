@@ -265,9 +265,14 @@ export default function SubmissionForm() {
         </Card>
 
         <div className="mt-6 text-center">
-          <p className="text-xs text-terminal-green-dim">
-            💻 A Terminal Puzzle Challenge 🧠
-          </p>
+          <div className="border-t border-terminal-green/20 pt-4">
+            <p className="text-xs text-terminal-green-dim font-mono">
+              [💻] TERMINAL PUZZLE CHALLENGE [🧠]
+            </p>
+            <p className="text-xs text-terminal-green-dim/70 mt-1 font-mono">
+              $ echo "Google Developer Groups • IET DAVV"
+            </p>
+          </div>
         </div>
       </div>
     </div>
