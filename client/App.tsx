@@ -45,8 +45,8 @@ const App = () => (
 const container = document.getElementById("root")!;
 
 // Only create root if it doesn't exist (prevents hot reload issues)
-if (!container.hasAttribute('data-root-created')) {
+if (!container.hasAttribute("data-root-created")) {
   const root = createRoot(container);
   root.render(<App />);
-  container.setAttribute('data-root-created', 'true');
+  container.setAttribute("data-root-created", "true");
 }
