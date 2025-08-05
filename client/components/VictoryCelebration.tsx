@@ -33,7 +33,15 @@ interface VictoryCelebrationProps {
   onClose: () => void;
 }
 
-const confettiColors = ["#00ff00", "#ffd700", "#ff6b6b", "#4ecdc4", "#45b7d1", "#ff9500", "#e91e63"];
+const confettiColors = [
+  "#00ff00",
+  "#ffd700",
+  "#ff6b6b",
+  "#4ecdc4",
+  "#45b7d1",
+  "#ff9500",
+  "#e91e63",
+];
 
 const generateConfetti = () => {
   return Array.from({ length: 60 }, (_, i) => ({
@@ -73,7 +81,7 @@ export default function VictoryCelebration({
       // Phase animation sequence
       const phases = [
         () => setCelebrationPhase(1), // 0.8s
-        () => setCelebrationPhase(2), // 1.6s  
+        () => setCelebrationPhase(2), // 1.6s
         () => setCelebrationPhase(3), // 2.4s
         () => setShowFireworks(true), // 3.2s
       ];
@@ -106,13 +114,21 @@ export default function VictoryCelebration({
   const getTrophyIcon = (position: number) => {
     switch (position) {
       case 0:
-        return <Crown className="w-12 h-12 md:w-16 md:h-16 text-yellow-400 drop-shadow-lg" />;
+        return (
+          <Crown className="w-12 h-12 md:w-16 md:h-16 text-yellow-400 drop-shadow-lg" />
+        );
       case 1:
-        return <Medal className="w-10 h-10 md:w-14 md:h-14 text-gray-400 drop-shadow-lg" />;
+        return (
+          <Medal className="w-10 h-10 md:w-14 md:h-14 text-gray-400 drop-shadow-lg" />
+        );
       case 2:
-        return <Medal className="w-8 h-8 md:w-12 md:h-12 text-amber-600 drop-shadow-lg" />;
+        return (
+          <Medal className="w-8 h-8 md:w-12 md:h-12 text-amber-600 drop-shadow-lg" />
+        );
       default:
-        return <Trophy className="w-8 h-8 text-terminal-green drop-shadow-lg" />;
+        return (
+          <Trophy className="w-8 h-8 text-terminal-green drop-shadow-lg" />
+        );
     }
   };
 
@@ -242,8 +258,8 @@ export default function VictoryCelebration({
               const heights = ["h-72 md:h-80", "h-64 md:h-72", "h-56 md:h-64"];
               const borderColors = [
                 "border-yellow-400 shadow-yellow-400/30",
-                "border-gray-400 shadow-gray-400/20", 
-                "border-amber-600 shadow-amber-600/20"
+                "border-gray-400 shadow-gray-400/20",
+                "border-amber-600 shadow-amber-600/20",
               ];
 
               return (
@@ -284,8 +300,8 @@ export default function VictoryCelebration({
                             index === 0
                               ? "bg-gradient-to-br from-yellow-400 to-yellow-600 text-black"
                               : index === 1
-                              ? "bg-gradient-to-br from-gray-300 to-gray-500 text-black"
-                              : "bg-gradient-to-br from-amber-500 to-amber-700 text-white"
+                                ? "bg-gradient-to-br from-gray-300 to-gray-500 text-black"
+                                : "bg-gradient-to-br from-amber-500 to-amber-700 text-white"
                           }`}
                         >
                           {index + 1}
@@ -304,8 +320,8 @@ export default function VictoryCelebration({
                           index === 0
                             ? "border-yellow-400 text-yellow-400"
                             : index === 1
-                            ? "border-gray-400 text-gray-400"
-                            : "border-amber-600 text-amber-600"
+                              ? "border-gray-400 text-gray-400"
+                              : "border-amber-600 text-amber-600"
                         }`}
                       >
                         {getPositionTitle(index)}
@@ -319,7 +335,10 @@ export default function VictoryCelebration({
                         <p className="text-sm md:text-base text-terminal-green font-mono leading-tight">
                           {getTeamName(team.teamId)}
                         </p>
-                        <Badge variant="secondary" className="text-xs bg-terminal-cyan/20 text-terminal-cyan">
+                        <Badge
+                          variant="secondary"
+                          className="text-xs bg-terminal-cyan/20 text-terminal-cyan"
+                        >
                           {getPositionSubtitle(index)}
                         </Badge>
                       </div>
@@ -348,7 +367,8 @@ export default function VictoryCelebration({
                           </span>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          {team.submissions} submission{team.submissions !== 1 ? "s" : ""}
+                          {team.submissions} submission
+                          {team.submissions !== 1 ? "s" : ""}
                         </p>
                       </div>
                     </CardContent>
@@ -378,21 +398,31 @@ export default function VictoryCelebration({
                 You've conquered the shell and claimed your treasure!
               </p>
               <p className="text-sm md:text-base text-terminal-green-dim">
-                Thank you for this epic terminal adventure. Your skills made this event unforgettable! 🚀
+                Thank you for this epic terminal adventure. Your skills made
+                this event unforgettable! 🚀
               </p>
             </div>
 
             {/* Achievement Badges */}
             <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 mb-6">
-              <Badge variant="outline" className="text-sm px-3 py-1 bg-black/30 backdrop-blur-sm">
+              <Badge
+                variant="outline"
+                className="text-sm px-3 py-1 bg-black/30 backdrop-blur-sm"
+              >
                 <Volume2 className="w-4 h-4 mr-2" />
                 GDG Event
               </Badge>
-              <Badge variant="outline" className="text-sm px-3 py-1 bg-black/30 backdrop-blur-sm">
+              <Badge
+                variant="outline"
+                className="text-sm px-3 py-1 bg-black/30 backdrop-blur-sm"
+              >
                 <Trophy className="w-4 h-4 mr-2" />
                 Champions
               </Badge>
-              <Badge variant="outline" className="text-sm px-3 py-1 bg-black/30 backdrop-blur-sm">
+              <Badge
+                variant="outline"
+                className="text-sm px-3 py-1 bg-black/30 backdrop-blur-sm"
+              >
                 <Star className="w-4 h-4 mr-2" />
                 Memories
               </Badge>
