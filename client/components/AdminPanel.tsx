@@ -45,6 +45,7 @@ export default function AdminPanel() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [lastSubmissionId, setLastSubmissionId] = useState<number>(0);
   const [selectedTeam, setSelectedTeam] = useState<string>("");
+  const [showVictoryCelebration, setShowVictoryCelebration] = useState(false);
 
   const fetchSubmissions = async (showNewSubmissionToast = false) => {
     try {
@@ -70,7 +71,7 @@ export default function AdminPanel() {
             { duration: 10000 },
           );
           console.log(
-            "🔧 To fix this: Go to Supabase ��� SQL Editor → Run the setup script from database-setup.sql",
+            "🔧 To fix this: Go to Supabase → SQL Editor → Run the setup script from database-setup.sql",
           );
         } else if (errorMessage.includes("permission denied")) {
           toast.error("❌ Database access denied. Check Supabase permissions.");
