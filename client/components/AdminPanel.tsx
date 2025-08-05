@@ -24,9 +24,11 @@ import {
   ChevronDown,
   TrendingUp,
   Activity,
+  PartyPopper,
 } from "lucide-react";
 import MatrixBackground from "./MatrixBackground";
 import EventResetButton from "./EventResetButton";
+import VictoryCelebration from "./VictoryCelebration";
 
 interface Submission {
   id: number;
@@ -68,7 +70,7 @@ export default function AdminPanel() {
             { duration: 10000 },
           );
           console.log(
-            "🔧 To fix this: Go to Supabase → SQL Editor → Run the setup script from database-setup.sql",
+            "🔧 To fix this: Go to Supabase ��� SQL Editor → Run the setup script from database-setup.sql",
           );
         } else if (errorMessage.includes("permission denied")) {
           toast.error("❌ Database access denied. Check Supabase permissions.");
