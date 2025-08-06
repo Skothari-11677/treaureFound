@@ -9,7 +9,7 @@ A real-time terminal puzzle challenge application for cybersecurity events. Team
 - **Real-time Submissions**: Live updates when teams complete levels
 - **Terminal Theme**: Authentic hacker/cybersecurity aesthetic with matrix background
 - **Level Validation**: Automatic level detection based on password submission
-- **Team Management**: Pre-defined teams (101-160) with dropdown selection
+- **Team Management**: Pre-defined teams (101-200) with dropdown selection
 - **Difficulty Rating**: 1-5 star rating system for each level
 - **Admin Dashboard**: Real-time monitoring with team leaderboards and statistics
 - **Database Security**: Secure Supabase integration with proper validation
@@ -20,7 +20,7 @@ A real-time terminal puzzle challenge application for cybersecurity events. Team
 - **Event**: Google Developer Groups on Campus • IET DAVV
 - **Challenge**: A Terminal Puzzle Challenge 🧠
 - **Levels**: 10 interconnected levels (completing level 4 means levels 1-3 are also completed)
-- **Teams**: 60 teams (IDs 101-160)
+- **Teams**: 100 teams (IDs 101-200)
 
 ## 🛠️ Tech Stack
 
@@ -90,7 +90,7 @@ The application includes 10 levels with the following passwords:
 
 ## 🏆 How It Works
 
-1. **Team Selection**: Teams choose their ID (101-160) from dropdown
+1. **Team Selection**: Teams choose their ID (101-200) from dropdown
 2. **Password Submission**: Teams enter the password they discovered
 3. **Level Detection**: Application automatically determines the completed level
 4. **Difficulty Rating**: Teams rate the difficulty (1-5 stars)
@@ -100,7 +100,7 @@ The application includes 10 levels with the following passwords:
 ## 📱 Pages
 
 ### Submission Form (`/`)
-- Team ID dropdown (101-160)
+- Team ID dropdown (101-200)
 - Password input field
 - Difficulty rating (1-5 stars)
 - Success notifications
@@ -146,7 +146,7 @@ To modify team ranges, update `generateTeamOptions()` in `client/lib/levels.ts`:
 ```typescript
 export function generateTeamOptions(): string[] {
   const teams = []
-  for (let i = 101; i <= 160; i++) { // Modify range here
+  for (let i = 101; i <= 200; i++) { // Modify range here
     teams.push(i.toString())
   }
   return teams
@@ -211,7 +211,7 @@ For technical issues during the event:
 
 - [ ] Supabase database is set up and accessible
 - [ ] Admin panel displays correctly on projector
-- [ ] All team IDs (101-160) are available in dropdown
+- [ ] All team IDs (101-200) are available in dropdown
 - [ ] Real-time updates are working
 - [ ] Backup refresh functionality tested
 - [ ] All level passwords validated
