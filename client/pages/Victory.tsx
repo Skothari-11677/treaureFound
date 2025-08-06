@@ -138,7 +138,10 @@ export default function Victory() {
           return b.maxLevel - a.maxLevel;
         }
         // If same level, sort by who completed it first (earliest completion time)
-        return new Date(a.maxLevelCompletionTime).getTime() - new Date(b.maxLevelCompletionTime).getTime();
+        return (
+          new Date(a.maxLevelCompletionTime).getTime() -
+          new Date(b.maxLevelCompletionTime).getTime()
+        );
       });
   };
 
