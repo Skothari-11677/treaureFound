@@ -44,7 +44,7 @@
 
 - [ ] Admin panel loads on projector
 - [ ] Teams can access submission form
-- [ ] All 60 teams (101-160) in dropdown
+- [ ] All 100 teams (101-200) in dropdown
 - [ ] Password validation works
 - [ ] Live updates working (3-second polling)
 
