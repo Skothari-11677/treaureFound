@@ -185,7 +185,7 @@ export default function SubmissionForm() {
                 </Label>
                 <Select value={teamId} onValueChange={setTeamId}>
                   <SelectTrigger className="bg-input border-terminal-green-dim text-foreground">
-                    <SelectValue placeholder="Select your team (101-160)" />
+                    <SelectValue placeholder="Select your team (101-200)" />
                   </SelectTrigger>
                   <SelectContent className="bg-popover border-terminal-green-dim max-h-60 overflow-y-auto">
                     {teamOptions.map((team) => (
