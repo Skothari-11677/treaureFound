@@ -521,7 +521,7 @@ export default function AdminPanel() {
             <div className="space-y-4">
               <Select value={selectedTeam} onValueChange={setSelectedTeam}>
                 <SelectTrigger className="bg-input border-terminal-green-dim text-foreground">
-                  <SelectValue placeholder="Select a team (101-160)" />
+                  <SelectValue placeholder="Select a team (101-200)" />
                 </SelectTrigger>
                 <SelectContent className="bg-popover border-terminal-green-dim max-h-60">
                   {teamOptions.map((team) => {
