@@ -98,6 +98,7 @@ export default function Victory() {
         maxLevel: number;
         submissions: number;
         lastSubmission: string;
+        maxLevelCompletionTime: string;
         avgRating: number;
       }
     >();
@@ -109,6 +110,7 @@ export default function Victory() {
           maxLevel: sub.level,
           submissions: (existing?.submissions || 0) + 1,
           lastSubmission: sub.created_at,
+          maxLevelCompletionTime: sub.created_at, // Track when highest level was completed
           avgRating: existing
             ? (existing.avgRating * existing.submissions +
                 sub.difficulty_rating) /
@@ -129,9 +131,14 @@ export default function Victory() {
 
     return Array.from(teamMap.entries())
       .map(([teamId, stats]) => ({ teamId, ...stats }))
-      .sort(
-        (a, b) => b.maxLevel - a.maxLevel || a.teamId.localeCompare(b.teamId),
-      );
+      .sort((a, b) => {
+        // First sort by highest level achieved
+        if (b.maxLevel !== a.maxLevel) {
+          return b.maxLevel - a.maxLevel;
+        }
+        // If same level, sort by who completed it first (earliest completion time)
+        return new Date(a.maxLevelCompletionTime).getTime() - new Date(b.maxLevelCompletionTime).getTime();
+      });
   };
 
   const startCelebration = () => {
