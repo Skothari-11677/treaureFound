@@ -55,16 +55,19 @@ CREATE TABLE submissions (
 ### Installation
 
 1. **Clone and install dependencies**:
+
    ```bash
    npm install
    ```
 
 2. **Set up Supabase database**:
+
    - Create a new Supabase project
    - Go to SQL Editor and run the contents of `database-setup.sql`
    - Update the Supabase credentials in `client/lib/supabase.ts` and `server/routes/submissions.ts`
 
 3. **Start development server**:
+
    ```bash
    npm run dev
    ```
@@ -100,6 +103,7 @@ The application includes 10 levels with the following passwords:
 ## 📱 Pages
 
 ### Submission Form (`/`)
+
 - Team ID dropdown (101-200)
 - Password input field
 - Difficulty rating (1-5 stars)
@@ -107,6 +111,7 @@ The application includes 10 levels with the following passwords:
 - Terminal-themed UI with matrix background
 
 ### Admin Panel (`/admin`)
+
 - Real-time submission feed
 - Team leaderboard with rankings
 - Level distribution statistics
@@ -116,11 +121,13 @@ The application includes 10 levels with the following passwords:
 ## 🚀 Deployment (Netlify)
 
 1. **Build the application**:
+
    ```bash
    npm run build
    ```
 
 2. **Deploy to Netlify**:
+
    - Connect your repository to Netlify
    - Set build command: `npm run build`
    - Set publish directory: `dist/spa`
@@ -145,11 +152,12 @@ To modify team ranges, update `generateTeamOptions()` in `client/lib/levels.ts`:
 
 ```typescript
 export function generateTeamOptions(): string[] {
-  const teams = []
-  for (let i = 101; i <= 200; i++) { // Modify range here
-    teams.push(i.toString())
+  const teams = [];
+  for (let i = 101; i <= 200; i++) {
+    // Modify range here
+    teams.push(i.toString());
   }
-  return teams
+  return teams;
 }
 ```
 
@@ -172,6 +180,7 @@ Update terminal colors in `client/global.css`:
 ### Matrix Background
 
 The matrix effect can be disabled by removing `<MatrixBackground />` components from:
+
 - `client/components/SubmissionForm.tsx`
 - `client/components/AdminPanel.tsx`
 
@@ -219,4 +228,4 @@ For technical issues during the event:
 ---
 
 **Built for Google Developer Groups on Campus • IET DAVV**  
-*A Terminal Puzzle Challenge* 🧠💻
+_A Terminal Puzzle Challenge_ 🧠💻
