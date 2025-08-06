@@ -82,7 +82,7 @@ export function getTeamName(teamId: string): string {
 
 export function generateTeamOptions(): string[] {
   const teams = [];
-  for (let i = 101; i <= 160; i++) {
+  for (let i = 101; i <= 200; i++) {
     teams.push(i.toString());
   }
   return teams;
