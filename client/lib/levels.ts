@@ -93,7 +93,7 @@ export function generateTeamOptionsWithNames(): Array<{
   name: string;
 }> {
   const teams = [];
-  for (let i = 101; i <= 160; i++) {
+  for (let i = 101; i <= 200; i++) {
     const id = i.toString();
     const name = getTeamName(id);
     teams.push({ id, name });
