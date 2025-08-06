@@ -30,6 +30,7 @@ interface TeamStats {
   maxLevel: number;
   submissions: number;
   lastSubmission: string;
+  maxLevelCompletionTime: string;
   avgRating: number;
 }
 
