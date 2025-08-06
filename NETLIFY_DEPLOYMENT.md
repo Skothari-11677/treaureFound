@@ -172,7 +172,7 @@ Your `netlify.toml` includes:
 - [ ] Admin panel loads correctly
 - [ ] Test submissions work
 - [ ] Polling updates every 3 seconds
-- [ ] All 60 teams (101-160) in dropdown
+- [ ] All 100 teams (101-200) in dropdown
 - [ ] Password validation works for all levels
 
 ### 7.2 During Event
