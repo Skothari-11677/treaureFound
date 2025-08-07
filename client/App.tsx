@@ -10,6 +10,7 @@ import SubmissionForm from "./components/SubmissionForm";
 import AdminPanel from "./components/AdminPanel";
 import TestSupabase from "./pages/TestSupabase";
 import Victory from "./pages/Victory";
+import EventSummary from "./pages/EventSummary";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
