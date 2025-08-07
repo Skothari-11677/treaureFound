@@ -34,6 +34,7 @@ const App = () => (
           <Route path="/" element={<SubmissionForm />} />
           <Route path="/admin" element={<AdminPanel />} />
           <Route path="/victory" element={<Victory />} />
+          <Route path="/summary" element={<EventSummary />} />
           <Route path="/test" element={<TestSupabase />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
